@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController <UIActionSheetDelegate>
+@interface FirstViewController : UIViewController <UIActionSheetDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 -(IBAction)showActionSheet:(id)sender;
 

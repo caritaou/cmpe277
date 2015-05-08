@@ -8,8 +8,11 @@
 
 #import "FirstViewController.h"
 
-@interface FirstViewController () <UIActionSheetDelegate>
+@interface FirstViewController () <UIActionSheetDelegate> {
+    NSArray *states;
+}
 @property (weak, nonatomic) IBOutlet UILabel *propertyTypeLabel;
+@property (weak, nonatomic) IBOutlet UIPickerView *picker;
 
 @end
 
@@ -23,6 +26,10 @@ NSString *apt = @"Apartment";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    states=@[@"AL",@"CA", @"NY", @"WYY"];
+    self.picker = [[UIPickerView alloc]init];
+    self.picker.dataSource = self;
+    self.picker.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,4 +61,22 @@ NSString *apt = @"Apartment";
         break;
     }
 }
+
+- (long)numberOfComponentsInPickerView:(UIPickerView *) pickerView {
+    return 1;
+}
+
+- (long)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return states.count;
+}
+
+- (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return states[row];
+}
+
+//Capture selection
+//- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+//    
+//}
+
 @end
