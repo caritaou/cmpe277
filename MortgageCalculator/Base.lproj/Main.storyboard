@@ -140,12 +140,33 @@
                             <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1q8-jd-BZ7">
                                 <rect key="frame" x="145" y="273" width="94" height="30"/>
                             </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAS-Gf-odh">
+                                <rect key="frame" x="39" y="527" width="74" height="30"/>
+                                <state key="normal" title="Calculate">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="calculateMortgage:" destination="9pv-A4-QxB" eventType="touchUpInside" id="lqA-oH-rtR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9g6-Hz-oVJ">
+                                <rect key="frame" x="185" y="607" width="45" height="29"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                <state key="normal" title="New"/>
+                                <connections>
+                                    <action selector="clearFields:" destination="9pv-A4-QxB" eventType="touchUpInside" id="KUQ-RZ-0lr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="calculateButton" destination="9g6-Hz-oVJ" id="fIr-bJ-mvZ"/>
+                        <outlet property="clearButton" destination="9g6-Hz-oVJ" id="4gJ-d1-EWf"/>
+                        <outlet property="monthlyPaymentLabel" destination="YY4-nV-cpm" id="Uhd-hz-egR"/>
+                        <outlet property="newButton" destination="9g6-Hz-oVJ" id="oEG-eI-9R2"/>
                         <outlet property="pickState" destination="1q8-jd-BZ7" id="LZZ-Tb-CHd"/>
                         <outlet property="propertyTypeLabel" destination="WFY-e9-Fan" id="rUF-qd-7ze"/>
                     </connections>

@@ -11,5 +11,7 @@
 @interface FirstViewController : UIViewController <UIActionSheetDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 -(IBAction)showActionSheet:(id)sender;
+-(IBAction)calculateMortgage:(id)sender;
+-(IBAction)clearFields:(id)sender;
 
 @end

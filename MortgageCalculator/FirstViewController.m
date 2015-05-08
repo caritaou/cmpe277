@@ -13,12 +13,25 @@
 }
 @property (weak, nonatomic) IBOutlet UILabel *propertyTypeLabel;
 @property (weak, nonatomic) IBOutlet UIPickerView *picker;
+@property (weak, nonatomic) IBOutlet UIButton *calculateButton;
+@property (weak, nonatomic) IBOutlet UIButton *clearButton;
+@property (weak, nonatomic) IBOutlet UILabel *monthlyPaymentLabel;
+
 
 @end
 
 @implementation FirstViewController
 
 NSString *property;
+NSString *address;
+NSString *city;
+NSString *state;
+NSString *zip;
+
+NSNumber *loanAmount;
+NSNumber *downPayment;
+NSNumber *apr;
+NSNumber *terms; //number of years to pay off
 
 NSString *house = @"House";
 NSString *apt = @"Apartment";
@@ -78,5 +91,13 @@ NSString *apt = @"Apartment";
 //- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 //    
 //}
+
+//Calculate mortgage, from "Calculate" button click
+- (IBAction)calculateMortgage:(id)sender {
+}
+
+//Clear all input fields, from "New" button click
+- (IBAction)clearFields:(id)sender {
+}
 
 @end
