@@ -9,10 +9,16 @@
 #import "FirstViewController.h"
 
 @interface FirstViewController () <UIActionSheetDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *propertyTypeLabel;
 
 @end
 
 @implementation FirstViewController
+
+NSString *property;
+
+NSString *house = @"House";
+NSString *apt = @"Apartment";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,8 +31,6 @@
 }
 
 - (IBAction)showActionSheet:(id)sender {
-    NSString *house = @"House";
-    NSString *apt = @"Apartment";
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
                                   initWithTitle:@"Choose Property Type"
                                   delegate:self
@@ -36,21 +40,18 @@
     [actionSheet showInView:self.view];}
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (actionSheet.tag) {
-        case 1: {
-            switch (buttonIndex) {
-                case 0: //house
-                    
-                    break;
-                case 1: //apt
-                    break;
-                default: //house
-                    break;
-            }
+    switch (buttonIndex) {
+        case 0: //house
+            self.propertyTypeLabel.text = house;
+            property = house;
             break;
-        }
-        default:
+        case 1: //apt
+            self.propertyTypeLabel.text = apt;
+            property = apt;
             break;
+        default: //house
+            property = house;
+        break;
     }
 }
 @end
