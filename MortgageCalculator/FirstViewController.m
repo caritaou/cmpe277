@@ -25,15 +25,10 @@
 }
 
 - (IBAction)showActionSheet:(id)sender {
-//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:@"Save", nil];
-//    
-//    [actionSheet showInView:self.view];
-//    NSString *actionSheetTitle = @"House"; //Action Sheet Title
     NSString *house = @"House";
     NSString *apt = @"Apartment";
-//    NSString *cancelTitle = @"Cancel Button";
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
-                                  initWithTitle:nil
+                                  initWithTitle:@"Choose Property Type"
                                   delegate:self
                                   cancelButtonTitle:nil
                                   destructiveButtonTitle:nil
@@ -45,6 +40,7 @@
         case 1: {
             switch (buttonIndex) {
                 case 0: //house
+                    
                     break;
                 case 1: //apt
                     break;
