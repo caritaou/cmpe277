@@ -137,13 +137,23 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eeH-zY-5s7">
+                                <rect key="frame" x="145" y="273" width="94" height="30"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="apr" destination="xDl-tL-fGA" id="z8Y-LG-cCC"/>
+                        <outlet property="city" destination="fmm-s8-QoP" id="4bh-0S-2K9"/>
+                        <outlet property="downPayment" destination="xQW-bq-HxF" id="GDe-KW-k2x"/>
+                        <outlet property="loanAmount" destination="1DO-dd-fwX" id="7sk-o2-UTp"/>
                         <outlet property="propertyTypeLabel" destination="WFY-e9-Fan" id="rUF-qd-7ze"/>
+                        <outlet property="statePicker" destination="eeH-zY-5s7" id="YRx-hN-jCA"/>
+                        <outlet property="stateZip" destination="V2D-Hy-ove" id="fiy-hC-Zi3"/>
+                        <outlet property="terms" destination="Mbl-bN-z8C" id="3p3-ef-ODS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>

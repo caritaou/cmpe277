@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController <UIActionSheetDelegate>
+@interface FirstViewController : UIViewController <UIActionSheetDelegate,UITextFieldDelegate,UIPickerViewDelegate, UIPickerViewDataSource>
 
 -(IBAction)showActionSheet:(id)sender;
-
+@property (weak, nonatomic) IBOutlet UILabel *propertyTypeLabel;
+@property (weak, nonatomic) IBOutlet UITextField *city;
+@property (weak, nonatomic) IBOutlet UITextField *stateZip;
+@property (weak, nonatomic) IBOutlet UITextField *loanAmount;
+@property (weak, nonatomic) IBOutlet UITextField *downPayment;
+@property (weak, nonatomic) IBOutlet UITextField *apr;
+@property (weak, nonatomic) IBOutlet UITextField *terms;
+@property (weak, nonatomic) IBOutlet UIPickerView *statePicker;
 @end

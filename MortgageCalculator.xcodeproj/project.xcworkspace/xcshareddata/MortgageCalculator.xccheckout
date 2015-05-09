@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>5874830A-2833-4C36-84CF-AD631B4969D0</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>MortgageCalculator</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>200CD0A469DF0ABE14448332C75C0696A798E05A</key>
 		<string>https://github.com/caritaou/cmpe277.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>MortgageCalculator.xcodeproj/project.xcworkspace</string>
+	<string>MortgageCalculator.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>200CD0A469DF0ABE14448332C75C0696A798E05A</key>
