@@ -102,6 +102,12 @@ NSString *apt = @"Apartment";
     NSLog(@"DEBUG: apr is %f", apr);
     NSLog(@"DEBUG: terms in years is %d", terms);
 
+    //equation
+    //monthly payment = p ( [i(1+i)^n]/[(1+i)^n - 1] )
+    double p = loanAmount - downPayment;
+    double i = apr / 12;
+    double n = terms / 12;
+    
     
     //display mortgage rate in label
     self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", amount];
