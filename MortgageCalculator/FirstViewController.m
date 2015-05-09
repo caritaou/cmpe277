@@ -9,7 +9,6 @@
 #import "FirstViewController.h"
 
 @interface FirstViewController (){
-
 NSArray *_statePickerData;
 }
 @end
@@ -17,6 +16,15 @@ NSArray *_statePickerData;
 @implementation FirstViewController
 
 NSString *property;
+NSString *address;
+NSString *city;
+NSString *state;
+NSString *zip;
+
+NSNumber *loanAmount;
+NSNumber *downPayment;
+NSNumber *apr;
+NSNumber *terms; //number of years to pay off
 
 NSString *house = @"House";
 NSString *apt = @"Apartment";
@@ -32,7 +40,6 @@ NSString *apt = @"Apartment";
     _statePickerData = @[@"Item 1", @"Item 2", @"Item 3", @"Item 4", @"Item 5", @"Item 6"];
     self.statePicker.dataSource= self;
     self.statePicker.delegate=self;
-    // Do any additional setup after loading the view, typically from a nib.
 }
 
 
@@ -103,4 +110,5 @@ NSString *apt = @"Apartment";
     [textField resignFirstResponder];
     return YES;
 }
+
 @end
