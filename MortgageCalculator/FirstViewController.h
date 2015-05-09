@@ -10,13 +10,22 @@
 
 @interface FirstViewController : UIViewController <UIActionSheetDelegate,UITextFieldDelegate,UIPickerViewDelegate, UIPickerViewDataSource>
 
--(IBAction)showActionSheet:(id)sender;
+//button actions
+- (IBAction)showActionSheet:(id)sender;
+- (IBAction)calculateMortgage:(id)sender;
+
+//labels
 @property (weak, nonatomic) IBOutlet UILabel *propertyTypeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *paymentLabel;
+
+//textfields
+@property (weak, nonatomic) IBOutlet UITextView *address;
 @property (weak, nonatomic) IBOutlet UITextField *city;
 @property (weak, nonatomic) IBOutlet UITextField *stateZip;
 @property (weak, nonatomic) IBOutlet UITextField *loanAmount;
 @property (weak, nonatomic) IBOutlet UITextField *downPayment;
 @property (weak, nonatomic) IBOutlet UITextField *apr;
 @property (weak, nonatomic) IBOutlet UITextField *terms;
+//pickerview
 @property (weak, nonatomic) IBOutlet UIPickerView *statePicker;
 @end

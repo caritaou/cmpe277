@@ -16,28 +16,25 @@ NSArray *_statePickerData;
 @implementation FirstViewController
 
 NSString *property;
-NSString *address;
-NSString *city;
 NSString *state;
-NSString *zip;
-
-NSNumber *loanAmount;
-NSNumber *downPayment;
-NSNumber *apr;
-NSNumber *terms; //number of years to pay off
 
 NSString *house = @"House";
 NSString *apt = @"Apartment";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
+    tapGesture.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGesture];
+    
     _city.delegate = self;
     _stateZip.delegate = self;
     _loanAmount.delegate = self;
     _downPayment.delegate = self;
     _apr.delegate = self;
     _terms.delegate = self;
-    _statePickerData = @[@"Item 1", @"Item 2", @"Item 3", @"Item 4", @"Item 5", @"Item 6"];
+    _statePickerData = @[ @"Alabama", @"Alaska", @"Arizona", @"Arkansas", @"California", @"Colorado", @"Connecticut", @"Delaware", @"Florida", @"Georgia", @"Hawaii", @"Idaho", @"Illinois", @"Indiana", @"Iowa", @"Kansas", @"Kentucky", @"Louisiana", @"Maine", @"Maryland", @"Massachusetts", @"Michigan", @"Minnesota", @"Mississippi", @"Missouri", @"Montana", @"Nebraska", @"Nevada", @"New Hampshire", @"New Jersey", @"New Mexico", @"New York", @"North Carolina", @"North Dakota", @"Ohio", @"Oklahoma", @"Oregon", @"Pennsylvania", @"Rhode Island", @"South Carolina", @"South Dakota", @"Tennessee", @"Texas", @"Utah", @"Vermont", @"Virginia", @"Washington", @"West Virginia", @"Wisconsin", @"Wyoming"];
     self.statePicker.dataSource= self;
     self.statePicker.delegate=self;
 }
@@ -52,7 +49,8 @@ NSString *apt = @"Apartment";
 {
     // This method is triggered whenever the user makes a change to the picker selection.
     // The parameter named row and component represents what was selected.
-    NSLog(@"DEBUG: got here 2 %@",_statePickerData[row]);
+    state = _statePickerData[row];
+    NSLog(@"DEBUG: state chosen is %@", state);
 }
 
 // The number of columns of data
@@ -83,6 +81,32 @@ NSString *apt = @"Apartment";
     [actionSheet showInView:self.view];
 }
 
+- (IBAction)calculateMortgage:(id)sender {
+    double amount = 1234.0;
+    
+    //read input from textfields
+    NSString *address = _address.text;
+    NSString *city = _city.text;
+    int zip = [_stateZip.text intValue];
+    double loanAmount = [_loanAmount.text doubleValue];
+    double downPayment = [_downPayment.text doubleValue];
+    double apr = [_apr.text doubleValue];
+    int terms = [_terms.text intValue];
+    
+    
+    NSLog(@"DEBUG: address is %@", address);
+    NSLog(@"DEBUG: city is %@", city);
+    NSLog(@"DEBUG: zip is %d", zip);
+    NSLog(@"DEBUG: loan amount is %f", loanAmount);
+    NSLog(@"DEBUG: down payment is %f", downPayment);
+    NSLog(@"DEBUG: apr is %f", apr);
+    NSLog(@"DEBUG: terms in years is %d", terms);
+
+    
+    //display mortgage rate in label
+    self.paymentLabel.text = [NSString stringWithFormat:@"$%f", amount];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (buttonIndex) {
         case 0: //house
@@ -104,11 +128,22 @@ NSString *apt = @"Apartment";
     return YES;
 }
 
-// It is important for you to hide the keyboard
+// hide the keyboard
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
+}
+
+-(void)dismissKeyboard
+{
+    [_address resignFirstResponder];
+    [_city resignFirstResponder];
+    [_stateZip resignFirstResponder];
+    [_loanAmount resignFirstResponder];
+    [_downPayment resignFirstResponder];
+    [_apr resignFirstResponder];
+    [_terms resignFirstResponder];
 }
 
 @end
