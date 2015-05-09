@@ -93,7 +93,7 @@ NSString *apt = @"Apartment";
     double apr = [_apr.text doubleValue];
     int terms = [_terms.text intValue];
     
-    
+    //TODO: error checking on input
     NSLog(@"DEBUG: address is %@", address);
     NSLog(@"DEBUG: city is %@", city);
     NSLog(@"DEBUG: zip is %d", zip);
@@ -104,7 +104,7 @@ NSString *apt = @"Apartment";
 
     
     //display mortgage rate in label
-    self.paymentLabel.text = [NSString stringWithFormat:@"$%f", amount];
+    self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", amount];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
