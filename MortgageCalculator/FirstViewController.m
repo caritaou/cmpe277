@@ -36,6 +36,7 @@ NSString *apt = @"Apartment";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
+    //CREATE TABLE propertyInfo(property_type text, address text, city text, state, zip integer, loan_amount numeric, down_payment numeric, apr numeric, terms int, mortgage_rate numeric);
     
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
     tapGesture.cancelsTouchesInView = NO;
@@ -126,6 +127,9 @@ NSString *apt = @"Apartment";
     rate = amount;
     //display mortgage rate in label
     self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", amount];
+    
+    
+    [self.saveButton setEnabled:YES];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -207,6 +211,21 @@ NSString *apt = @"Apartment";
     
     NSArray *results = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:select]];
     NSLog(@"DEBUG: select from propertyInfo is %@", results);
+}
+
+- (IBAction)reset:(id)sender {
+    
+    self.propertyTypeLabel.text = house;
+    property = house;
+    self.paymentLabel.text = @"0.0";
+    _address.text = @"";
+    _city.text = @"";
+    _stateZip.text = @"";
+    _loanAmount.text = @"0.0";
+    _downPayment.text = @"0.0";
+    _apr.text = @"0.0";
+    _terms.text = @"0";
+    [self.saveButton setEnabled:NO];
 }
 
 @end

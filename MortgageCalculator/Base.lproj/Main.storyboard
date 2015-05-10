@@ -150,13 +150,22 @@
                                     <action selector="calculateMortgage:" destination="9pv-A4-QxB" eventType="touchUpInside" id="z0V-dm-j1U"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x2L-8u-wXe">
-                                <rect key="frame" x="298" y="552" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x2L-8u-wXe">
+                                <rect key="frame" x="298" y="559" width="46" height="30"/>
                                 <state key="normal" title="Save">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="saveProperty:" destination="9pv-A4-QxB" eventType="touchUpInside" id="Pn4-0F-HAg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X4S-jN-GRz">
+                                <rect key="frame" x="298" y="97" width="46" height="30"/>
+                                <state key="normal" title="Reset">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="reset:" destination="9pv-A4-QxB" eventType="touchUpInside" id="fAs-n0-t2m"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -172,6 +181,7 @@
                         <outlet property="loanAmount" destination="1DO-dd-fwX" id="7sk-o2-UTp"/>
                         <outlet property="paymentLabel" destination="YY4-nV-cpm" id="WCE-ql-GSz"/>
                         <outlet property="propertyTypeLabel" destination="WFY-e9-Fan" id="rUF-qd-7ze"/>
+                        <outlet property="saveButton" destination="x2L-8u-wXe" id="ZNe-yl-buv"/>
                         <outlet property="statePicker" destination="eeH-zY-5s7" id="YRx-hN-jCA"/>
                         <outlet property="stateZip" destination="V2D-Hy-ove" id="fiy-hC-Zi3"/>
                         <outlet property="terms" destination="Mbl-bN-z8C" id="3p3-ef-ODS"/>
