@@ -9,6 +9,8 @@
 #import "FirstViewController.h"
 #import "DBManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface FirstViewController ()
     
@@ -30,6 +32,8 @@ double down;
 double apr;
 int terms;
 double rate;
+double latitude;
+double longitude;
 
 //initialize error messages
 NSString *errorAddress = @"";
@@ -46,7 +50,7 @@ NSString *apt = @"Apartment";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
-    //CREATE TABLE propertyInfo(property_type text, address text, city text, state, zip integer, loan_amount numeric, down_payment numeric, apr numeric, terms int, mortgage_rate numeric);
+    //CREATE TABLE propertyInfo(property_type text, address text, city text, state, zip integer, loan_amount numeric, down_payment numeric, apr numeric, terms int, mortgage_rate numeric, latitude numeric, longitude numeric);
     
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
     tapGesture.cancelsTouchesInView = NO;
@@ -131,7 +135,7 @@ NSString *apt = @"Apartment";
     double amount = 1234.0;
     
     //read input from textfields
-    address = _address.text;
+    address = [self formatAddress:_address.text];
     city = _city.text;
     zip = [_stateZip.text intValue];
     loan = [_loanAmount.text doubleValue];
@@ -140,7 +144,7 @@ NSString *apt = @"Apartment";
     terms = [_terms.text intValue];
     
     correct = [self errorCheck];
-
+    
     //equation
     //monthly payment = p ( [i(1+i)^n]/[(1+i)^(n - 1)] )
     double p = loan;
@@ -149,19 +153,42 @@ NSString *apt = @"Apartment";
     
     
     rate = amount;
+    
     //display mortgage rate in label
     self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", amount];
     
-    if (correct) {
-        [self.saveButton setEnabled:YES];
-    }
-    else {
+    if (!correct) {
         errorMessage = [NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@ %@", errorAddress,errorCity,errorZip,errorLoan,errorDown,errorAPR,errorTerm];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorTitle
-                                                        message:errorMessage
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
+                                                  message:errorMessage
+                                                  delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    //check if address is a valid location
+    NSString *createAddress = [NSString stringWithFormat:@"%@ %@ %@ %@", address, city, state, _stateZip.text];
+    
+    NSLog(@"DEBUG: createAddress is %@", createAddress);
+    NSString *fullAddress = [self formatAddress:createAddress];
+    NSLog(@"DEBUG: full address is %@", fullAddress);
+    
+    CLLocationCoordinate2D myCoordinate = kCLLocationCoordinate2DInvalid;
+    myCoordinate = [self getLocationFromAddressString:fullAddress];
+    if(CLLocationCoordinate2DIsValid(myCoordinate)) {
+        latitude = myCoordinate.latitude;
+        longitude = myCoordinate.longitude;
+        NSLog(@"DEBUG: latitude is %f", myCoordinate.latitude);
+        NSLog(@"DEBUG: longitude is %f", myCoordinate.longitude);
+        [self.saveButton setEnabled:YES];
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Address"
+                                                  message:@"The address entered did not return valid coordinates"
+                                                  delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
         [alert show];
     }
 }
@@ -215,8 +242,10 @@ NSString *apt = @"Apartment";
     NSLog(@"DEBUG: apr is %f", apr);
     NSLog(@"DEBUG: terms in years is %d", terms);
     NSLog(@"DEBUG: rate is %f", rate);
+    NSLog(@"DEBUG: latitude is %f", latitude);
+    NSLog(@"DEBUG: longitude is %f", longitude);
     
-    NSString *query = [NSString stringWithFormat:@"insert into propertyInfo values('%@', '%@', '%@', '%@', %d, %f, %f, %f, %d, %f)", property, address, city, state, zip, loan, down, apr, terms, rate];
+    NSString *query = [NSString stringWithFormat:@"insert into propertyInfo values('%@', '%@', '%@', '%@', %d, %f, %f, %f, %d, %f, %f, %f)", property, address, city, state, zip, loan, down, apr, terms, rate, latitude, longitude];
     
     NSLog(@"DEBUG: query is %@", query);
     
@@ -233,7 +262,6 @@ NSString *apt = @"Apartment";
     else{
         NSLog(@"Could not execute the query.");
     }
-    
     
     //test select to verify data inserted into table
     NSString *select = @"select * from propertyInfo";
@@ -313,6 +341,37 @@ NSString *apt = @"Apartment";
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     NSNumber *number = [formatter numberFromString:str];
     return !!number; // If the string is not numeric, number will be nil
+}
+
+-(NSString *) formatAddress:(NSString *) str {
+    NSCharacterSet *whitespaces = [NSCharacterSet whitespaceCharacterSet];
+    NSPredicate *noEmptyStrings = [NSPredicate predicateWithFormat:@"SELF != ''"];
+    
+    NSArray *parts = [str componentsSeparatedByCharactersInSet:whitespaces];
+    NSArray *filteredArray = [parts filteredArrayUsingPredicate:noEmptyStrings];
+    str = [filteredArray componentsJoinedByString:@" "];
+    return str;
+}
+
+-(CLLocationCoordinate2D) getLocationFromAddressString:(NSString*) addressStr {
+    
+    double latitude = 0, longitude = 0;
+    NSString *esc_addr =  [addressStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *req = [NSString stringWithFormat:@"http://maps.google.com/maps/api/geocode/json?sensor=false&address=%@", esc_addr];
+    NSString *result = [NSString stringWithContentsOfURL:[NSURL URLWithString:req] encoding:NSUTF8StringEncoding error:NULL];
+    if (result) {
+        NSScanner *scanner = [NSScanner scannerWithString:result];
+        if ([scanner scanUpToString:@"\"lat\" :" intoString:nil] && [scanner scanString:@"\"lat\" :" intoString:nil]) {
+            [scanner scanDouble:&latitude];
+            if ([scanner scanUpToString:@"\"lng\" :" intoString:nil] && [scanner scanString:@"\"lng\" :" intoString:nil]) {
+                [scanner scanDouble:&longitude];
+            }
+        }
+    }
+    CLLocationCoordinate2D center;
+    center.latitude = latitude;
+    center.longitude = longitude;
+    return center;
 }
 
 @end
