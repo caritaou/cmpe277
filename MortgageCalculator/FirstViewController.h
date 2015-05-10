@@ -30,7 +30,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *downPayment;
 @property (weak, nonatomic) IBOutlet UITextField *apr;
 @property (weak, nonatomic) IBOutlet UITextField *terms;
+@property (weak, nonatomic) IBOutlet UITextField *statePickField;
 
 //pickerview
-@property (weak, nonatomic) IBOutlet UIPickerView *statePicker;
+//@property (weak, nonatomic) IBOutlet UIPickerView *statePicker;
 @end

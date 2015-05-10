@@ -138,9 +138,6 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eeH-zY-5s7">
-                                <rect key="frame" x="145" y="273" width="94" height="30"/>
-                            </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l3H-KG-hKo">
                                 <rect key="frame" x="39" y="527" width="141" height="30"/>
                                 <state key="normal" title="Calculate Mortgage">
@@ -168,6 +165,11 @@
                                     <action selector="reset:" destination="9pv-A4-QxB" eventType="touchUpInside" id="fAs-n0-t2m"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="state" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u0I-V1-fwm">
+                                <rect key="frame" x="145" y="273" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -182,7 +184,7 @@
                         <outlet property="paymentLabel" destination="YY4-nV-cpm" id="WCE-ql-GSz"/>
                         <outlet property="propertyTypeLabel" destination="WFY-e9-Fan" id="rUF-qd-7ze"/>
                         <outlet property="saveButton" destination="x2L-8u-wXe" id="ZNe-yl-buv"/>
-                        <outlet property="statePicker" destination="eeH-zY-5s7" id="YRx-hN-jCA"/>
+                        <outlet property="statePickField" destination="u0I-V1-fwm" id="KgW-og-UbF"/>
                         <outlet property="stateZip" destination="V2D-Hy-ove" id="fiy-hC-Zi3"/>
                         <outlet property="terms" destination="Mbl-bN-z8C" id="3p3-ef-ODS"/>
                     </connections>

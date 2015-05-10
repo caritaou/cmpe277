@@ -16,7 +16,7 @@
 @end
 
 @implementation FirstViewController
-
+UIPickerView *statePicker;
 NSArray *_statePickerData;
 
 NSString *property;
@@ -50,8 +50,12 @@ NSString *apt = @"Apartment";
     _apr.delegate = self;
     _terms.delegate = self;
     _statePickerData = @[ @"Alabama", @"Alaska", @"Arizona", @"Arkansas", @"California", @"Colorado", @"Connecticut", @"Delaware", @"Florida", @"Georgia", @"Hawaii", @"Idaho", @"Illinois", @"Indiana", @"Iowa", @"Kansas", @"Kentucky", @"Louisiana", @"Maine", @"Maryland", @"Massachusetts", @"Michigan", @"Minnesota", @"Mississippi", @"Missouri", @"Montana", @"Nebraska", @"Nevada", @"New Hampshire", @"New Jersey", @"New Mexico", @"New York", @"North Carolina", @"North Dakota", @"Ohio", @"Oklahoma", @"Oregon", @"Pennsylvania", @"Rhode Island", @"South Carolina", @"South Dakota", @"Tennessee", @"Texas", @"Utah", @"Vermont", @"Virginia", @"Washington", @"West Virginia", @"Wisconsin", @"Wyoming"];
-    self.statePicker.dataSource= self;
-    self.statePicker.delegate=self;
+    
+    statePicker = [[UIPickerView alloc] init];
+//    statePicker.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame), CGRectGetWidth(statePicker.frame), CGRectGetHeight(statePicker.frame));
+    statePicker.delegate = self;
+    statePicker.dataSource = self;
+    self.statePickField.inputView = statePicker;
 }
 
 
@@ -59,12 +63,15 @@ NSString *apt = @"Apartment";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 // Catpure the picker view selection
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     // This method is triggered whenever the user makes a change to the picker selection.
     // The parameter named row and component represents what was selected.
     state = _statePickerData[row];
+    [_statePickField setText:[_statePickerData objectAtIndex:row]];
+    [[self view] endEditing:YES];
     NSLog(@"DEBUG: state chosen is %@", state);
 }
 
@@ -85,6 +92,16 @@ NSString *apt = @"Apartment";
 {
     return _statePickerData[row];
 }
+
+//hide picker
+//- (void)setPickerHidden:(BOOL)hidden
+//{
+//    CGAffineTransform transform = hidden ? CGAffineTransformIdentity : CGAffineTransformMakeTranslation(0, -CGRectGetHeight(statePicker.frame));
+//    
+//    [UIView animateWithDuration:0.3 animations:^{
+//        statePicker.transform = transform;
+//    }];
+//}
 
 - (IBAction)showActionSheet:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
@@ -146,11 +163,6 @@ NSString *apt = @"Apartment";
             property = house;
         break;
     }
-}
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
-    return YES;
 }
 
 // hide the keyboard
