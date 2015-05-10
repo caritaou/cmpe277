@@ -7,27 +7,41 @@
 //
 
 #import "FirstViewController.h"
+#import "DBManager.h"
 
-@interface FirstViewController (){
-NSArray *_statePickerData;
-}
+@interface FirstViewController ()
+    
+@property (nonatomic, strong) DBManager *dbManager;
+
 @end
 
 @implementation FirstViewController
 
+NSArray *_statePickerData;
+
 NSString *property;
 NSString *state;
+NSString *address;
+NSString *city;
+int zip;
+double loan;
+double down;
+double apr;
+int terms;
+double rate;
 
 NSString *house = @"House";
 NSString *apt = @"Apartment";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
     
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissKeyboard)];
     tapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGesture];
     
+    property = house;
     _city.delegate = self;
     _stateZip.delegate = self;
     _loanAmount.delegate = self;
@@ -85,30 +99,31 @@ NSString *apt = @"Apartment";
     double amount = 1234.0;
     
     //read input from textfields
-    NSString *address = _address.text;
-    NSString *city = _city.text;
-    int zip = [_stateZip.text intValue];
-    double loanAmount = [_loanAmount.text doubleValue];
-    double downPayment = [_downPayment.text doubleValue];
-    double apr = [_apr.text doubleValue];
-    int terms = [_terms.text intValue];
+    address = _address.text;
+    city = _city.text;
+    zip = [_stateZip.text intValue];
+    loan = [_loanAmount.text doubleValue];
+    down = [_downPayment.text doubleValue];
+    apr = [_apr.text doubleValue];
+    terms = [_terms.text intValue];
+    
     
     //TODO: error checking on input
     NSLog(@"DEBUG: address is %@", address);
     NSLog(@"DEBUG: city is %@", city);
     NSLog(@"DEBUG: zip is %d", zip);
-    NSLog(@"DEBUG: loan amount is %f", loanAmount);
-    NSLog(@"DEBUG: down payment is %f", downPayment);
+    NSLog(@"DEBUG: loan amount is %f", loan);
+    NSLog(@"DEBUG: down payment is %f", down);
     NSLog(@"DEBUG: apr is %f", apr);
     NSLog(@"DEBUG: terms in years is %d", terms);
 
     //equation
     //monthly payment = p ( [i(1+i)^n]/[(1+i)^n - 1] )
-    double p = loanAmount - downPayment;
+    double p = loan - down;
     double i = apr / 12;
     double n = terms / 12;
     
-    
+    rate = amount;
     //display mortgage rate in label
     self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", amount];
 }
@@ -150,6 +165,41 @@ NSString *apt = @"Apartment";
     [_downPayment resignFirstResponder];
     [_apr resignFirstResponder];
     [_terms resignFirstResponder];
+}
+
+//sqlite3
+- (IBAction)saveProperty:(id)sender {
+//    [self performSegueWithIdentifier:@"idSegueEditInfo" sender:self];
+    // Prepare the query string.
+    
+    NSLog(@"DEBUG: property is %@", property);
+    NSLog(@"DEBUG: address is %@", address);
+    NSLog(@"DEBUG: city is %@", city);
+    NSLog(@"DEBUG: state is %@", state);
+    NSLog(@"DEBUG: zip is %d", zip);
+    NSLog(@"DEBUG: loan amount is %f", loan);
+    NSLog(@"DEBUG: down payment is %f", down);
+    NSLog(@"DEBUG: apr is %f", apr);
+    NSLog(@"DEBUG: terms in years is %d", terms);
+    NSLog(@"DEBUG: rate is %f", rate);
+    
+    NSString *query = [NSString stringWithFormat:@"insert into propertyInfo values('%@', '%@', '%@', '%@', %d, %f, %f, %f, %d, %f)", property, address, city, state, zip, loan, down, apr, terms, rate];
+    
+    NSLog(@"DEBUG: query is %@", query);
+    
+    // Execute the query.
+    [self.dbManager executeQuery:query];
+    
+    // If the query was successfully executed then pop the view controller.
+    if (self.dbManager.affectedRows != 0) {
+        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbManager.affectedRows);
+        
+        // Pop the view controller.
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        NSLog(@"Could not execute the query.");
+    }
 }
 
 @end

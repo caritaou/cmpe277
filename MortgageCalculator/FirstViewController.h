@@ -13,6 +13,7 @@
 //button actions
 - (IBAction)showActionSheet:(id)sender;
 - (IBAction)calculateMortgage:(id)sender;
+- (IBAction)saveProperty:(id)sender;
 
 //labels
 @property (weak, nonatomic) IBOutlet UILabel *propertyTypeLabel;
