@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 edu.sjsu.cmpe277. All rights reserved.
 //
 #import <GoogleMaps/GoogleMaps.h>
+#import <CoreLocation/CoreLocation.h>
 #import "SecondViewController.h"
 
 @interface SecondViewController ()
@@ -24,25 +25,28 @@
     // Create a GMSCameraPosition that tells the map to display the coordinate xxx
     // at zoom level 6;
     
-    self._locationManager = [[CLLocationManager alloc] init];
-    self._locationManager.distanceFilter = kCLDistanceFilterNone;
-    self._locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self._locationManager startUpdatingLocation];
+//    self._locationManager = [[CLLocationManager alloc] init];
+//    self._locationManager.distanceFilter = kCLDistanceFilterNone;
+//    self._locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    [self._locationManager startUpdatingLocation];
+//    
+//    CLLocationCoordinate2D currLocation = self._locationManager.location.coordinate;
     
-    CLLocationCoordinate2D currLocation = self._locationManager.location.coordinate;
+//    GMSCameraPosition * camera = [GMSCameraPosition cameraWithTarget:currLocation zoom:11];
     
-    GMSCameraPosition * camera = [GMSCameraPosition cameraWithTarget:currLocation zoom:11];
+    GMSCameraPosition * camera = [GMSCameraPosition cameraWithLatitude:37.3349732 longitude:-121.880756 zoom:15];
     mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
-    mapView_.myLocationEnabled = YES;
-    NSLog(@"User's location: %@", self._locationManager.location);
+//    mapView_.myLocationEnabled = YES; // enable current location
+//    NSLog(@"Current location: %@", mapView_.myLocation.coordinate);
     self.view = mapView_;
-    
+        
     // Creates a maker in the center of the map.
     GMSMarker *marker = [[GMSMarker alloc] init];
 //    marker.position = CLLocationCoordinate2DMake(-33.86, 151.20);
-    marker.position = currLocation;
-    marker.title = @"Home";
-    marker.snippet = @"Current Location";
+//    marker.position = currLocation;
+    marker.position = CLLocationCoordinate2DMake(37.3349732, -121.880756);
+    marker.title = @"SJSU";
+    marker.snippet = @"San Jose State University";
     marker.map = mapView_;
     
     [super viewDidLoad];
