@@ -10,6 +10,8 @@
 
 @interface SecondViewController ()
 
+//@property (nonatomic, retain) CLLocationManager * locationManager;
+
 @end
 
 @implementation SecondViewController
@@ -18,23 +20,32 @@
 }
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     // Create a GMSCameraPosition that tells the map to display the coordinate xxx
     // at zoom level 6;
-    GMSCameraPosition * camera = [GMSCameraPosition cameraWithLatitude:-33.86 longitude:151.20 zoom:6];
+    
+    self._locationManager = [[CLLocationManager alloc] init];
+    self._locationManager.distanceFilter = kCLDistanceFilterNone;
+    self._locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self._locationManager startUpdatingLocation];
+    
+    CLLocationCoordinate2D currLocation = self._locationManager.location.coordinate;
+    
+    GMSCameraPosition * camera = [GMSCameraPosition cameraWithTarget:currLocation zoom:11];
     mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     mapView_.myLocationEnabled = YES;
+    NSLog(@"User's location: %@", self._locationManager.location);
     self.view = mapView_;
     
     // Creates a maker in the center of the map.
     GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = CLLocationCoordinate2DMake(-33.86, 151.20);
-    marker.title = @"Sydney";
-    marker.snippet = @"Australia";
+//    marker.position = CLLocationCoordinate2DMake(-33.86, 151.20);
+    marker.position = currLocation;
+    marker.title = @"Home";
+    marker.snippet = @"Current Location";
     marker.map = mapView_;
     
-    
+    [super viewDidLoad];
 }
 
 - (void)didReceiveMemoryWarning {

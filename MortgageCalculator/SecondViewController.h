@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface SecondViewController : UIViewController
 
+
+@property (nonatomic, retain) CLLocationManager * _locationManager;
 
 @end
 
