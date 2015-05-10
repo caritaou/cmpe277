@@ -200,6 +200,13 @@ NSString *apt = @"Apartment";
     else{
         NSLog(@"Could not execute the query.");
     }
+    
+    
+    //test select to verify data inserted into table
+    NSString *select = @"select * from propertyInfo";
+    
+    NSArray *results = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:select]];
+    NSLog(@"DEBUG: select from propertyInfo is %@", results);
 }
 
 @end
