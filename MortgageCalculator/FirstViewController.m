@@ -142,10 +142,11 @@ NSString *apt = @"Apartment";
     correct = [self errorCheck];
 
     //equation
-    //monthly payment = p ( [i(1+i)^n]/[(1+i)^n - 1] )
-    double p = loan - down;
+    //monthly payment = p ( [i(1+i)^n]/[(1+i)^(n - 1)] )
+    double p = loan;
     double i = apr / 12;
     double n = terms / 12;
+    
     
     rate = amount;
     //display mortgage rate in label
