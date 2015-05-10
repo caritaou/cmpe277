@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 edu.sjsu.cmpe277. All rights reserved.
 //
 
+#import <GoogleMaps/GoogleMaps.h>
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
@@ -17,6 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [GMSServices provideAPIKey:@"AIzaSyA09LhRJ0IuWW2-jnKO8c6v8JSplHh-FJg"];
     return YES;
 }
 
