@@ -13,6 +13,10 @@
 //button actions
 - (IBAction)showActionSheet:(id)sender;
 - (IBAction)calculateMortgage:(id)sender;
+- (IBAction)saveProperty:(id)sender;
+
+//reference
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
 
 //labels
 @property (weak, nonatomic) IBOutlet UILabel *propertyTypeLabel;
@@ -26,6 +30,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *downPayment;
 @property (weak, nonatomic) IBOutlet UITextField *apr;
 @property (weak, nonatomic) IBOutlet UITextField *terms;
-//pickerview
-@property (weak, nonatomic) IBOutlet UIPickerView *statePicker;
+@property (weak, nonatomic) IBOutlet UITextField *statePickField;
+
 @end

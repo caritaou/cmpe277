@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04936D951AFF314400242C4D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 04936D941AFF314400242C4D /* libsqlite3.dylib */; };
+		04936D981AFF31EB00242C4D /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04936D971AFF31EB00242C4D /* DBManager.m */; };
+		04936D9E1AFF4E5600242C4D /* propertydb.sql in Resources */ = {isa = PBXBuildFile; fileRef = 04936D9D1AFF4E5600242C4D /* propertydb.sql */; };
 		04BF54FA1AE9F32400EFA65E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BF54F91AE9F32400EFA65E /* main.m */; };
 		04BF54FD1AE9F32400EFA65E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BF54FC1AE9F32400EFA65E /* AppDelegate.m */; };
 		04BF55001AE9F32400EFA65E /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BF54FF1AE9F32400EFA65E /* FirstViewController.m */; };
@@ -43,6 +46,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04936D941AFF314400242C4D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		04936D961AFF31EB00242C4D /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		04936D971AFF31EB00242C4D /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		04936D9D1AFF4E5600242C4D /* propertydb.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = propertydb.sql; sourceTree = "<group>"; };
 		04BF54F41AE9F32400EFA65E /* MortgageCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MortgageCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BF54F81AE9F32400EFA65E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04BF54F91AE9F32400EFA65E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -81,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04936D951AFF314400242C4D /* libsqlite3.dylib in Frameworks */,
 				E6C29C8B1AFED61900E75B75 /* libc++abi.dylib in Frameworks */,
 				E6C29C891AFECF9900E75B75 /* SystemConfiguration.framework in Frameworks */,
 				E6C29C871AFECF9100E75B75 /* QuartzCore.framework in Frameworks */,
@@ -130,6 +138,7 @@
 		04BF54F61AE9F32400EFA65E /* MortgageCalculator */ = {
 			isa = PBXGroup;
 			children = (
+				04936D9D1AFF4E5600242C4D /* propertydb.sql */,
 				04BF54FB1AE9F32400EFA65E /* AppDelegate.h */,
 				04BF54FC1AE9F32400EFA65E /* AppDelegate.m */,
 				04BF54FE1AE9F32400EFA65E /* FirstViewController.h */,
@@ -140,6 +149,8 @@
 				04BF55071AE9F32400EFA65E /* Images.xcassets */,
 				04BF55091AE9F32400EFA65E /* LaunchScreen.xib */,
 				04BF54F71AE9F32400EFA65E /* Supporting Files */,
+				04936D961AFF31EB00242C4D /* DBManager.h */,
+				04936D971AFF31EB00242C4D /* DBManager.m */,
 			);
 			path = MortgageCalculator;
 			sourceTree = "<group>";
@@ -173,6 +184,7 @@
 		E6C29C8C1AFED96600E75B75 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04936D941AFF314400242C4D /* libsqlite3.dylib */,
 				E6C29C8A1AFED61900E75B75 /* libc++abi.dylib */,
 				E6C29C881AFECF9900E75B75 /* SystemConfiguration.framework */,
 				E6C29C861AFECF9100E75B75 /* QuartzCore.framework */,
@@ -272,6 +284,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04936D9E1AFF4E5600242C4D /* propertydb.sql in Resources */,
 				04BF55061AE9F32400EFA65E /* Main.storyboard in Resources */,
 				04BF550B1AE9F32400EFA65E /* LaunchScreen.xib in Resources */,
 				04BF55081AE9F32400EFA65E /* Images.xcassets in Resources */,
@@ -297,6 +310,7 @@
 				04BF54FD1AE9F32400EFA65E /* AppDelegate.m in Sources */,
 				04BF55001AE9F32400EFA65E /* FirstViewController.m in Sources */,
 				04BF54FA1AE9F32400EFA65E /* main.m in Sources */,
+				04936D981AFF31EB00242C4D /* DBManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

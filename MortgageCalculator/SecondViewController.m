@@ -8,10 +8,13 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SecondViewController.h"
+#import "DBManager.h"
 
 @interface SecondViewController ()
 
 //@property (nonatomic, retain) CLLocationManager * locationManager;
+@property (nonatomic, strong) DBManager *dbManager;
+@property (nonatomic, strong) NSArray *arrPropertyInfo;
 
 @end
 
@@ -25,12 +28,13 @@
     // Create a GMSCameraPosition that tells the map to display the coordinate xxx
     // at zoom level 6;
     
-//    self._locationManager = [[CLLocationManager alloc] init];
-//    self._locationManager.distanceFilter = kCLDistanceFilterNone;
-//    self._locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-//    [self._locationManager startUpdatingLocation];
-//    
-//    CLLocationCoordinate2D currLocation = self._locationManager.location.coordinate;
+    self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
+    [self loadData];
+    
+    self._locationManager = [[CLLocationManager alloc] init];
+    self._locationManager.distanceFilter = kCLDistanceFilterNone;
+    self._locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self._locationManager startUpdatingLocation];
     
 //    GMSCameraPosition * camera = [GMSCameraPosition cameraWithTarget:currLocation zoom:11];
     
@@ -55,6 +59,18 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)loadData{
+    // Form the query.
+    NSString *query = @"select * from propertyInfo";
+    
+    // Get the results.
+    if (self.arrPropertyInfo != nil) {
+        self.arrPropertyInfo = nil;
+    }
+    self.arrPropertyInfo = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:query]];
+    NSLog(@"DEBUG: select from propertyInfo is %@", self.arrPropertyInfo);
 }
 
 @end
