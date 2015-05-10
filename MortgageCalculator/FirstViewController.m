@@ -8,6 +8,7 @@
 
 #import "FirstViewController.h"
 #import "DBManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface FirstViewController ()
     
@@ -30,6 +31,15 @@ double apr;
 int terms;
 double rate;
 
+//initialize error messages
+NSString *errorAddress = @"";
+NSString *errorCity = @"";
+NSString *errorZip = @"";
+NSString *errorLoan = @"";
+NSString *errorDown = @"";
+NSString *errorAPR = @"";
+NSString *errorTerm = @"";
+
 NSString *house = @"House";
 NSString *apt = @"Apartment";
 
@@ -42,6 +52,10 @@ NSString *apt = @"Apartment";
     tapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGesture];
     
+    [_address.layer setBorderColor:[[[UIColor lightGrayColor] colorWithAlphaComponent:0.5] CGColor]];
+    _address.layer.cornerRadius = 5.0;
+    [_address.layer setBorderWidth:1.0];
+    
     property = house;
     _city.delegate = self;
     _stateZip.delegate = self;
@@ -52,7 +66,6 @@ NSString *apt = @"Apartment";
     _statePickerData = @[ @"Alabama", @"Alaska", @"Arizona", @"Arkansas", @"California", @"Colorado", @"Connecticut", @"Delaware", @"Florida", @"Georgia", @"Hawaii", @"Idaho", @"Illinois", @"Indiana", @"Iowa", @"Kansas", @"Kentucky", @"Louisiana", @"Maine", @"Maryland", @"Massachusetts", @"Michigan", @"Minnesota", @"Mississippi", @"Missouri", @"Montana", @"Nebraska", @"Nevada", @"New Hampshire", @"New Jersey", @"New Mexico", @"New York", @"North Carolina", @"North Dakota", @"Ohio", @"Oklahoma", @"Oregon", @"Pennsylvania", @"Rhode Island", @"South Carolina", @"South Dakota", @"Tennessee", @"Texas", @"Utah", @"Vermont", @"Virginia", @"Washington", @"West Virginia", @"Wisconsin", @"Wyoming"];
     
     statePicker = [[UIPickerView alloc] init];
-//    statePicker.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame), CGRectGetWidth(statePicker.frame), CGRectGetHeight(statePicker.frame));
     statePicker.delegate = self;
     statePicker.dataSource = self;
     self.statePickField.inputView = statePicker;
@@ -93,15 +106,12 @@ NSString *apt = @"Apartment";
     return _statePickerData[row];
 }
 
-//hide picker
-//- (void)setPickerHidden:(BOOL)hidden
-//{
-//    CGAffineTransform transform = hidden ? CGAffineTransformIdentity : CGAffineTransformMakeTranslation(0, -CGRectGetHeight(statePicker.frame));
-//    
-//    [UIView animateWithDuration:0.3 animations:^{
-//        statePicker.transform = transform;
-//    }];
-//}
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    textField.textColor = [UIColor blackColor];
+    return YES;
+}
+
 
 - (IBAction)showActionSheet:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc]
@@ -114,6 +124,10 @@ NSString *apt = @"Apartment";
 }
 
 - (IBAction)calculateMortgage:(id)sender {
+    bool correct = true;
+    NSString *errorTitle = @"Invalid Arguments";
+    NSString *errorMessage = @"";
+    
     double amount = 1234.0;
     
     //read input from textfields
@@ -125,15 +139,7 @@ NSString *apt = @"Apartment";
     apr = [_apr.text doubleValue];
     terms = [_terms.text intValue];
     
-    
-    //TODO: error checking on input
-    NSLog(@"DEBUG: address is %@", address);
-    NSLog(@"DEBUG: city is %@", city);
-    NSLog(@"DEBUG: zip is %d", zip);
-    NSLog(@"DEBUG: loan amount is %f", loan);
-    NSLog(@"DEBUG: down payment is %f", down);
-    NSLog(@"DEBUG: apr is %f", apr);
-    NSLog(@"DEBUG: terms in years is %d", terms);
+    correct = [self errorCheck];
 
     //equation
     //monthly payment = p ( [i(1+i)^n]/[(1+i)^n - 1] )
@@ -145,8 +151,18 @@ NSString *apt = @"Apartment";
     //display mortgage rate in label
     self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", amount];
     
-    
-    [self.saveButton setEnabled:YES];
+    if (correct) {
+        [self.saveButton setEnabled:YES];
+    }
+    else {
+        errorMessage = [NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@ %@", errorAddress,errorCity,errorZip,errorLoan,errorDown,errorAPR,errorTerm];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorTitle
+                                                        message:errorMessage
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -238,6 +254,64 @@ NSString *apt = @"Apartment";
     _apr.text = @"0.0";
     _terms.text = @"0";
     [self.saveButton setEnabled:NO];
+}
+
+//simple error checking for user input
+- (bool) errorCheck {
+    bool correct = true;
+    NSLog(@"DEBUG: address is %@", address);
+    if(_address.text.length == 0) {
+        correct = false;
+        _address.textColor = [UIColor redColor];
+        errorAddress = @"Address cannot be empty.\r";
+    }
+    
+    NSLog(@"DEBUG: city is %@", city);
+    if(_city.text.length == 0) {
+        correct = false;
+        _city.textColor = [UIColor redColor];
+        errorCity = @"City cannot be empty.\r";
+    }
+    
+    NSLog(@"DEBUG: zip is %d", zip);
+    if(_stateZip.text.length != 5) {
+        correct = false;
+        _stateZip.textColor = [UIColor redColor];
+        errorZip = @"Zip code must be 5 digits.\r";
+    }
+    NSLog(@"DEBUG: loan amount is %f", loan);
+    if ([self stringIsNumeric:_loanAmount.text] == false) {
+        correct = false;
+        _loanAmount.textColor = [UIColor redColor];
+        errorZip = @"Loan Amount is not a valid number.\r";
+    }
+    NSLog(@"DEBUG: down payment is %f", down);
+    if ([self stringIsNumeric:_downPayment.text] == false) {
+        correct = false;
+        _downPayment.textColor = [UIColor redColor];
+        errorZip = @"Down Payment is not a valid number.\r";
+    }
+    NSLog(@"DEBUG: apr is %f", apr);
+    if ([self stringIsNumeric:_apr.text] == false) {
+        correct = false;
+        _apr.textColor = [UIColor redColor];
+        errorZip = @"APR is not a valid number.\r";
+    }
+    NSLog(@"DEBUG: terms in years is %d", terms);
+    if((_terms.text.length < 1) || (terms == 0)) {
+        correct = false;
+        _terms.textColor = [UIColor redColor];
+        errorTerm = @"Term must be at least 1 year.\r";
+    }
+    
+    return correct;
+}
+
+//checks if the input string is a number
+-(BOOL) stringIsNumeric:(NSString *) str {
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSNumber *number = [formatter numberFromString:str];
+    return !!number; // If the string is not numeric, number will be nil
 }
 
 @end

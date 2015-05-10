@@ -32,6 +32,4 @@
 @property (weak, nonatomic) IBOutlet UITextField *terms;
 @property (weak, nonatomic) IBOutlet UITextField *statePickField;
 
-//pickerview
-//@property (weak, nonatomic) IBOutlet UIPickerView *statePicker;
 @end
