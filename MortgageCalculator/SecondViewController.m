@@ -31,14 +31,14 @@
     self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
     [self loadData];
     
-    self._locationManager = [[CLLocationManager alloc] init];
-    self._locationManager.distanceFilter = kCLDistanceFilterNone;
-    self._locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self._locationManager startUpdatingLocation];
+//    self._locationManager = [[CLLocationManager alloc] init];
+//    self._locationManager.distanceFilter = kCLDistanceFilterNone;
+//    self._locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+//    [self._locationManager startUpdatingLocation];
     
 //    GMSCameraPosition * camera = [GMSCameraPosition cameraWithTarget:currLocation zoom:11];
     
-    GMSCameraPosition * camera = [GMSCameraPosition cameraWithLatitude:37.3349732 longitude:-121.880756 zoom:15];
+    GMSCameraPosition * camera = [GMSCameraPosition cameraWithLatitude:37.3349732 longitude:-121.880756 zoom:13];
     mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
 //    mapView_.myLocationEnabled = YES; // enable current location
 //    NSLog(@"Current location: %@", mapView_.myLocation.coordinate);
@@ -52,6 +52,19 @@
     marker.title = @"SJSU";
     marker.snippet = @"San Jose State University";
     marker.map = mapView_;
+    
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder geocodeAddressString:@"140 E San Carlos St, San Jose, CA 95112" completionHandler:^(NSArray *placemarks, NSError *error) {
+        for (CLPlacemark * aPlacemark in placemarks) {
+            NSString *latDest1 = [NSString stringWithFormat:@"%.4f", aPlacemark.location.coordinate.latitude];
+            NSString *lngDest1 = [NSString stringWithFormat:@"%.4f", aPlacemark.location.coordinate.longitude];
+            GMSMarker * aMarker = [[GMSMarker alloc] init];
+            aMarker.position = CLLocationCoordinate2DMake([latDest1 doubleValue], [lngDest1 doubleValue]);
+            aMarker.map = mapView_;
+            
+        }
+    }];
+    
     
     [super viewDidLoad];
 }
