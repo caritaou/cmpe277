@@ -132,8 +132,6 @@ NSString *apt = @"Apartment";
     NSString *errorTitle = @"Invalid Arguments";
     NSString *errorMessage = @"";
     
-    double amount = 1234.0;
-    
     //read input from textfields
     address = [self formatAddress:_address.text];
     city = _city.text;
@@ -147,15 +145,18 @@ NSString *apt = @"Apartment";
     
     //equation
     //monthly payment = p ( [i(1+i)^n]/[(1+i)^(n - 1)] )
-    double p = loan;
-    double i = apr / 12;
-    double n = terms / 12;
+    double p = loan - down;
+    double i = (apr/100) / 12;
+    double n = terms * 12;
     
-    
-    rate = amount;
+    rate = p * (
+        (i * pow(1+i, n))
+                /
+        (pow(1+i, n) - 1)
+    );
     
     //display mortgage rate in label
-    self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", amount];
+    self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", rate];
     
     if (!correct) {
         errorMessage = [NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@ %@", errorAddress,errorCity,errorZip,errorLoan,errorDown,errorAPR,errorTerm];
@@ -167,10 +168,8 @@ NSString *apt = @"Apartment";
         [alert show];
     }
     
-    //check if address is a valid location
+    //check if address is a valid location, format address to remove whitespace
     NSString *createAddress = [NSString stringWithFormat:@"%@ %@ %@ %@", address, city, state, _stateZip.text];
-    
-    NSLog(@"DEBUG: createAddress is %@", createAddress);
     NSString *fullAddress = [self formatAddress:createAddress];
     NSLog(@"DEBUG: full address is %@", fullAddress);
     
@@ -301,7 +300,6 @@ NSString *apt = @"Apartment";
         _city.textColor = [UIColor redColor];
         errorCity = @"City cannot be empty.\r";
     }
-    
     NSLog(@"DEBUG: zip is %d", zip);
     if(_stateZip.text.length != 5) {
         correct = false;
