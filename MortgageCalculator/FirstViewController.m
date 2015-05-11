@@ -23,7 +23,7 @@ UIPickerView *statePicker;
 NSArray *_statePickerData;
 
 NSString *property;
-NSString *state;
+NSString *state = @"";
 NSString *address;
 NSString *city;
 int zip;
@@ -43,6 +43,7 @@ NSString *errorLoan = @"";
 NSString *errorDown = @"";
 NSString *errorAPR = @"";
 NSString *errorTerm = @"";
+NSString *errorRate = @"";
 
 NSString *house = @"House";
 NSString *apt = @"Apartment";
@@ -158,8 +159,13 @@ NSString *apt = @"Apartment";
     //display mortgage rate in label
     self.paymentLabel.text = [NSString stringWithFormat:@"$%0.2f", rate];
     
+    if (isnan(rate)) {
+        correct = false;
+        errorRate = @"Invalid Rate, make sure values entered for loan, downpayment and apr are correct\r";
+    }
+    
     if (!correct) {
-        errorMessage = [NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@ %@", errorAddress,errorCity,errorZip,errorLoan,errorDown,errorAPR,errorTerm];
+        errorMessage = [NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@ %@ %@", errorAddress,errorCity,errorZip,errorLoan,errorDown,errorAPR,errorTerm,errorRate];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:errorTitle
                                                   message:errorMessage
                                                   delegate:nil
@@ -167,28 +173,8 @@ NSString *apt = @"Apartment";
                                                   otherButtonTitles:nil];
         [alert show];
     }
-    
-    //check if address is a valid location, format address to remove whitespace
-    NSString *createAddress = [NSString stringWithFormat:@"%@ %@ %@ %@", address, city, state, _stateZip.text];
-    NSString *fullAddress = [self formatAddress:createAddress];
-    NSLog(@"DEBUG: full address is %@", fullAddress);
-    
-    CLLocationCoordinate2D myCoordinate = kCLLocationCoordinate2DInvalid;
-    myCoordinate = [self getLocationFromAddressString:fullAddress];
-    if(CLLocationCoordinate2DIsValid(myCoordinate)) {
-        latitude = myCoordinate.latitude;
-        longitude = myCoordinate.longitude;
-        NSLog(@"DEBUG: latitude is %f", myCoordinate.latitude);
-        NSLog(@"DEBUG: longitude is %f", myCoordinate.longitude);
+    else {
         [self.saveButton setEnabled:YES];
-    }
-    else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Address"
-                                                  message:@"The address entered did not return valid coordinates"
-                                                  delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alert show];
     }
 }
 
@@ -228,46 +214,76 @@ NSString *apt = @"Apartment";
 
 //sqlite3
 - (IBAction)saveProperty:(id)sender {
-//    [self performSegueWithIdentifier:@"idSegueEditInfo" sender:self];
-    // Prepare the query string.
     
-    NSLog(@"DEBUG: property is %@", property);
-    NSLog(@"DEBUG: address is %@", address);
-    NSLog(@"DEBUG: city is %@", city);
-    NSLog(@"DEBUG: state is %@", state);
-    NSLog(@"DEBUG: zip is %d", zip);
-    NSLog(@"DEBUG: loan amount is %f", loan);
-    NSLog(@"DEBUG: down payment is %f", down);
-    NSLog(@"DEBUG: apr is %f", apr);
-    NSLog(@"DEBUG: terms in years is %d", terms);
-    NSLog(@"DEBUG: rate is %f", rate);
-    NSLog(@"DEBUG: latitude is %f", latitude);
-    NSLog(@"DEBUG: longitude is %f", longitude);
+    //check if address is a valid location, format address to remove whitespace
+    NSString *createAddress = [NSString stringWithFormat:@"%@ %@ %@ %@", address, city, state, _stateZip.text];
+    NSString *fullAddress = [self formatAddress:createAddress];
+    NSLog(@"DEBUG: full address is %@", fullAddress);
     
-    NSString *query = [NSString stringWithFormat:@"insert into propertyInfo values('%@', '%@', '%@', '%@', %d, %f, %f, %f, %d, %f, %f, %f)", property, address, city, state, zip, loan, down, apr, terms, rate, latitude, longitude];
+    CLLocationCoordinate2D myCoordinate = kCLLocationCoordinate2DInvalid;
+    myCoordinate = [self getLocationFromAddressString:fullAddress];
     
-    NSLog(@"DEBUG: query is %@", query);
-    
-    // Execute the query.
-    [self.dbManager executeQuery:query];
-    
-    // If the query was successfully executed then pop the view controller.
-    if (self.dbManager.affectedRows != 0) {
-        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbManager.affectedRows);
+    if(state == @"") {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Save"
+                                                        message:@"The state cannot be empty"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else if(CLLocationCoordinate2DIsValid(myCoordinate)) {
+        latitude = myCoordinate.latitude;
+        longitude = myCoordinate.longitude;
         
-        // Pop the view controller.
-        [self.navigationController popViewControllerAnimated:YES];
+        NSLog(@"DEBUG: latitude is %f", myCoordinate.latitude);
+        NSLog(@"DEBUG: longitude is %f", myCoordinate.longitude);
+        
+        NSLog(@"DEBUG: property is %@", property);
+        NSLog(@"DEBUG: address is %@", address);
+        NSLog(@"DEBUG: city is %@", city);
+        NSLog(@"DEBUG: state is %@", state);
+        NSLog(@"DEBUG: zip is %d", zip);
+        NSLog(@"DEBUG: loan amount is %f", loan);
+        NSLog(@"DEBUG: down payment is %f", down);
+        NSLog(@"DEBUG: apr is %f", apr);
+        NSLog(@"DEBUG: terms in years is %d", terms);
+        NSLog(@"DEBUG: rate is %f", rate);
+        NSLog(@"DEBUG: latitude is %f", latitude);
+        NSLog(@"DEBUG: longitude is %f", longitude);
+        
+        NSString *query = [NSString stringWithFormat:@"insert into propertyInfo values('%@', '%@', '%@', '%@', %d, %f, %f, %f, %d, %f, %f, %f)", property, address, city, state, zip, loan, down, apr, terms, rate, latitude, longitude];
+        
+        NSLog(@"DEBUG: query is %@", query);
+        
+        // Execute the query.
+        [self.dbManager executeQuery:query];
+        
+        // If the query was successfully executed then pop the view controller.
+        if (self.dbManager.affectedRows != 0) {
+            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbManager.affectedRows);
+            
+            // Pop the view controller.
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            NSLog(@"Could not execute the query.");
+        }
+        
+        
+        //test select to verify data inserted into table
+        //    NSString *select = @"select * from propertyInfo";
+        //
+        //    NSArray *results = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:select]];
+        //    NSLog(@"DEBUG: select from propertyInfo is %@", results);
     }
-    else{
-        NSLog(@"Could not execute the query.");
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Address"
+                                                  message:@"The address entered did not return valid coordinates"
+                                                  delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alert show];
     }
-    
-    
-    //test select to verify data inserted into table
-//    NSString *select = @"select * from propertyInfo";
-//    
-//    NSArray *results = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:select]];
-//    NSLog(@"DEBUG: select from propertyInfo is %@", results);
 }
 
 - (IBAction)reset:(id)sender {
