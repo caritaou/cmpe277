@@ -99,4 +99,21 @@
     NSLog(@"DEBUG: select from propertyInfo is %@", self.arrPropertyInfo);
 }
 
+-(void)deleteProperty:(NSArray*) info {
+    NSString *property = info[0];
+    NSString *address = info[1];
+    NSString *city = info[2];
+    NSString *state = info[3];
+    NSString *zip = info[4];
+    
+    // Prepare the query.
+    NSString *query = [NSString stringWithFormat:@"delete from propertyInfo where property=%@ and                       address=%@ and city=%@ and state=%@ and zip=%@", property, address, city, state, zip];
+    
+    // Execute the query.
+    [self.dbManager executeQuery:query];
+    
+    // Reload the table view.
+    [self loadData];
+}
+
 @end
