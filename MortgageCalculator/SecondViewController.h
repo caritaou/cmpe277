@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
+#import "DBManager.h"
 
-@interface SecondViewController : UIViewController
+@interface SecondViewController : UIViewController <MKMapViewDelegate, UIPopoverControllerDelegate>
 
-
+@property (nonatomic, strong) DBManager *dbManager;
+@property (nonatomic, strong) NSArray *arrPropertyInfo;
+@property (strong, nonatomic) UIPopoverController * mortagePicker_popover;
 @property (nonatomic, retain) CLLocationManager * _locationManager;
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
 
