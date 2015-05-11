@@ -23,13 +23,20 @@
 @implementation SecondViewController
 {
     GMSMapView *mapView_;
+    GMSPanoramaView *panoView_;
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    
+    self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
+    [self loadData];
 }
 
 - (void)viewDidLoad {
     // Do any additional setup after loading the view, typically from a nib.
     // Create a GMSCameraPosition that tells the map to display the coordinate xxx
     // at zoom level 6;
-    
+//    
     self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
     [self loadData];
     
@@ -38,10 +45,18 @@
 //    self._locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 //    [self._locationManager startUpdatingLocation];
     
-//    GMSCameraPosition * camera = [GMSCameraPosition cameraWithLatitude:37.3349732 longitude:-121.880756 zoom:15];
-//    mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
-//    self.view = mapView_;
-//        
+    GMSCameraPosition * camera = [GMSCameraPosition cameraWithLatitude:37.3349732 longitude:-121.880756 zoom:15];
+    mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+    
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    button.frame = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height, 100, 20);
+//    button.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+//    [button setTitle:@"Button" forState:UIControlStateNormal];
+//    [self.view addSubview:button];
+    
+    self.view = mapView_;
+    
+//
 //    // Creates a maker in the center of the map.
 //    GMSMarker *marker = [[GMSMarker alloc] init];
 //    marker.position = CLLocationCoordinate2DMake(37.3349732, -121.880756);
@@ -68,36 +83,39 @@
         double latitude = [object[10] doubleValue];
         double longitude = [object[11] doubleValue];
         
-        GMSCameraPosition * camera = [GMSCameraPosition cameraWithLatitude:latitude longitude:longitude zoom:15];
         
-        mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
-        self.view = mapView_;
+        //Used to fire up the street view
+        //panoView_ = [[GMSPanoramaView alloc] initWithFrame:CGRectZero];
+        //self.view = panoView_;
+        //[panoView_ moveNearCoordinate:CLLocationCoordinate2DMake(-33.732, 150.312)];
         
-        // Creates a maker in the center of the map.
         GMSMarker *marker = [[GMSMarker alloc] init];
         marker.position = CLLocationCoordinate2DMake(latitude, longitude);
         marker.title = object[1];
         marker.snippet = [NSString stringWithFormat:@"property %@\raddress %@\rcity %@\rloan %f\rapr %f\rpayment %f", property, address, city, loan, apr, payment];
+        marker.panoramaView = panoView_;
         marker.map = mapView_;
     }
     
 //    self.mortagePicker_popover = [[UIPopoverController alloc] init];
 //    self.mortagePicker_popover.delegate = self;
     
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder geocodeAddressString:@"140 E San Carlos St, San Jose, CA 95112" completionHandler:^(NSArray *placemarks, NSError *error) {
-        for (CLPlacemark * aPlacemark in placemarks) {
-            NSString *latDest1 = [NSString stringWithFormat:@"%.4f", aPlacemark.location.coordinate.latitude];
-            NSString *lngDest1 = [NSString stringWithFormat:@"%.4f", aPlacemark.location.coordinate.longitude];
-            GMSMarker * aMarker = [[GMSMarker alloc] init];
-            aMarker.position = CLLocationCoordinate2DMake([latDest1 doubleValue], [lngDest1 doubleValue]);
-            aMarker.map = mapView_;
-            
-        }
-    }];
+//    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+//    [geocoder geocodeAddressString:@"140 E San Carlos St, San Jose, CA 95112" completionHandler:^(NSArray *placemarks, NSError *error) {
+//        for (CLPlacemark * aPlacemark in placemarks) {
+//            NSString *latDest1 = [NSString stringWithFormat:@"%.4f", aPlacemark.location.coordinate.latitude];
+//            NSString *lngDest1 = [NSString stringWithFormat:@"%.4f", aPlacemark.location.coordinate.longitude];
+//            GMSMarker * aMarker = [[GMSMarker alloc] init];
+//            aMarker.position = CLLocationCoordinate2DMake([latDest1 doubleValue], [lngDest1 doubleValue]);
+//            aMarker.map = mapView_;
+//            
+//        }
+//    }];
+    
     
     
     [super viewDidLoad];
+    
 }
 
 - (void)didReceiveMemoryWarning {
