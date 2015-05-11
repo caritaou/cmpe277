@@ -18,6 +18,8 @@
 		04BF55081AE9F32400EFA65E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BF55071AE9F32400EFA65E /* Images.xcassets */; };
 		04BF550B1AE9F32400EFA65E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BF55091AE9F32400EFA65E /* LaunchScreen.xib */; };
 		04BF55171AE9F32400EFA65E /* MortgageCalculatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BF55161AE9F32400EFA65E /* MortgageCalculatorTests.m */; };
+		E62528D01B0078FF00F85A99 /* PopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E62528CE1B0078FF00F85A99 /* PopoverViewController.m */; };
+		E62528D11B0078FF00F85A99 /* PopoverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E62528CF1B0078FF00F85A99 /* PopoverViewController.xib */; };
 		E6C29C6F1AFECDAA00E75B75 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6C29C6E1AFECDAA00E75B75 /* GoogleMaps.framework */; };
 		E6C29C711AFECE1600E75B75 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E6C29C701AFECE1600E75B75 /* GoogleMaps.bundle */; };
 		E6C29C731AFECF2D00E75B75 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6C29C721AFECF2D00E75B75 /* AVFoundation.framework */; };
@@ -66,6 +68,9 @@
 		04BF55151AE9F32400EFA65E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04BF55161AE9F32400EFA65E /* MortgageCalculatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MortgageCalculatorTests.m; sourceTree = "<group>"; };
 		04BF55211AE9F3A800EFA65E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		E62528CD1B0078FF00F85A99 /* PopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverViewController.h; sourceTree = "<group>"; };
+		E62528CE1B0078FF00F85A99 /* PopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverViewController.m; sourceTree = "<group>"; };
+		E62528CF1B0078FF00F85A99 /* PopoverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopoverViewController.xib; sourceTree = "<group>"; };
 		E6C29C6E1AFECDAA00E75B75 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		E6C29C701AFECE1600E75B75 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		E6C29C721AFECF2D00E75B75 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -145,6 +150,9 @@
 				04BF54FF1AE9F32400EFA65E /* FirstViewController.m */,
 				04BF55011AE9F32400EFA65E /* SecondViewController.h */,
 				04BF55021AE9F32400EFA65E /* SecondViewController.m */,
+				E62528CD1B0078FF00F85A99 /* PopoverViewController.h */,
+				E62528CE1B0078FF00F85A99 /* PopoverViewController.m */,
+				E62528CF1B0078FF00F85A99 /* PopoverViewController.xib */,
 				04BF55041AE9F32400EFA65E /* Main.storyboard */,
 				04BF55071AE9F32400EFA65E /* Images.xcassets */,
 				04BF55091AE9F32400EFA65E /* LaunchScreen.xib */,
@@ -286,6 +294,7 @@
 			files = (
 				04936D9E1AFF4E5600242C4D /* propertydb.sql in Resources */,
 				04BF55061AE9F32400EFA65E /* Main.storyboard in Resources */,
+				E62528D11B0078FF00F85A99 /* PopoverViewController.xib in Resources */,
 				04BF550B1AE9F32400EFA65E /* LaunchScreen.xib in Resources */,
 				04BF55081AE9F32400EFA65E /* Images.xcassets in Resources */,
 				E6C29C711AFECE1600E75B75 /* GoogleMaps.bundle in Resources */,
@@ -306,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E62528D01B0078FF00F85A99 /* PopoverViewController.m in Sources */,
 				04BF55031AE9F32400EFA65E /* SecondViewController.m in Sources */,
 				04BF54FD1AE9F32400EFA65E /* AppDelegate.m in Sources */,
 				04BF55001AE9F32400EFA65E /* FirstViewController.m in Sources */,

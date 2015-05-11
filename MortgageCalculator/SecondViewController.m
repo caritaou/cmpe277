@@ -9,12 +9,14 @@
 #import <CoreLocation/CoreLocation.h>
 #import "SecondViewController.h"
 #import "DBManager.h"
+#import "PopoverViewController.h"
 
-@interface SecondViewController ()
+@interface SecondViewController () <UIPopoverControllerDelegate>
 
 //@property (nonatomic, retain) CLLocationManager * locationManager;
 @property (nonatomic, strong) DBManager *dbManager;
 @property (nonatomic, strong) NSArray *arrPropertyInfo;
+@property (strong, nonatomic) UIPopoverController * mortagePicker_popover;
 
 @end
 
@@ -79,6 +81,9 @@
         marker.map = mapView_;
     }
     
+//    self.mortagePicker_popover = [[UIPopoverController alloc] init];
+//    self.mortagePicker_popover.delegate = self;
+    
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder geocodeAddressString:@"140 E San Carlos St, San Jose, CA 95112" completionHandler:^(NSArray *placemarks, NSError *error) {
         for (CLPlacemark * aPlacemark in placemarks) {
@@ -128,5 +133,15 @@
     // Reload the table view.
     [self loadData];
 }
+
+- (IBAction)displayPopover:(UIButton *)sender
+{
+    PopoverViewController * newView = [[PopoverViewController alloc] initWithNibName:@"PopoverViewController" bundle:nil];
+    self.mortagePicker_popover = [[UIPopoverController alloc] initWithContentViewController:newView];
+    
+    [self.mortagePicker_popover setPopoverContentSize:CGSizeMake(200, 200)];
+    [self.mortagePicker_popover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
 
 @end
