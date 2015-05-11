@@ -132,6 +132,9 @@
     
     // Reload the table view.
     [self loadData];
+    
+    //refresh map
+    [super viewDidLoad];
 }
 
 - (IBAction)displayPopover:(UIButton *)sender
