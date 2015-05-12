@@ -26,6 +26,7 @@
     
     self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
     [self loadData];
+    [self viewDidLoad];
 }
 
 - (void)viewDidLoad {
@@ -144,7 +145,7 @@
     NSString *zip = info[4];
     
     // Prepare the query.
-    NSString *query = [NSString stringWithFormat:@"delete from propertyInfo where property=%@ and                       address=%@ and city=%@ and state=%@ and zip=%@", property, address, city, state, zip];
+    NSString *query = [NSString stringWithFormat:@"delete from propertyInfo where property=%@ and address=%@ and city=%@ and state=%@ and zip=%@", property, address, city, state, zip];
     
     // Execute the query.
     [self.dbManager executeQuery:query];
@@ -178,29 +179,7 @@
 
 - (void)listCalculatedMortage
 {
-//    MKLocalSearchRequest * request = [[MKLocalSearchRequest alloc] init];
-////    request.naturalLanguageQuery = self.addressQuery;
-//    request.region = self.mapView.region;
-//    
-//    MKLocalSearch * search = [[MKLocalSearch alloc] initWithRequest:request];
-//    
-//    NSString * foundLocation = @"Test location";
-//    NSString * locationAddr = @"Test address";
-//    
-//    [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
-//        if (response.mapItems.count == 0) {
-//            NSLog(@"No record...");
-//        }
-//        else
-//            NSLog(@"Response: %@", response);
-//        for (MKMapView * mapItem in response.mapItems)
-//        {
-////            ModifiedAnnotation * annotation = [[ModifiedAnnotation alloc] init];
-////            [annotation updateDetails:foundLocation item:mapItem addr:locationAddr];
-////            [mapView addAnnotation:annotation];
-//            [self defaultLocation];
-//        }
-//    }];
+    // List existed data
     //0:property, 1:address, 2:city, 3:state, 4:zip, 5:loan, 6:down, 7:apr, 8:terms, 9:rate, 10:latitude, 11:longitude
     for (id object in _arrPropertyInfo)
     {
@@ -218,26 +197,62 @@
         double longitude = [object[11] doubleValue];
         
         
+        NSString * _fulladdr = address;
+        _fulladdr = [_fulladdr stringByAppendingString:@", "];
+        _fulladdr = [_fulladdr stringByAppendingString:city];
+        _fulladdr = [_fulladdr stringByAppendingString:@" "];
+        _fulladdr = [_fulladdr stringByAppendingString:state];
+        
+        MKLocalSearchRequest * request = [[MKLocalSearchRequest alloc] init];
+        request.naturalLanguageQuery = _fulladdr;
+        request.region = mapView.region;
+        
+        [mapView setRegion:request.region animated:YES];
+        MKLocalSearch * search = [[MKLocalSearch alloc]initWithRequest:request];
+        
+        [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+            if (response.mapItems.count==0)
+                NSLog(@"No Data");
+            else
+                NSLog(@"Response: ", response);
+            for (MKMapItem * item in response.mapItems)
+            {
+                ModifiedAnnotation * annotation = [[ModifiedAnnotation alloc] init];
+                [annotation updateDetails:property item:item addr:address];
+                [mapView addAnnotation:annotation];
+                [self defaultLocation];
+            }
+        }];
         
     }
     
-    CLLocationCoordinate2D sjsu_location;
-    sjsu_location.latitude = SJSULat;
-    sjsu_location.longitude = SJSULon;
-    
-    ModifiedAnnotation * annotation = [[ModifiedAnnotation alloc] init];
-    annotation.coordinate = sjsu_location;
-    annotation.title = @"San Jose State University";
-    annotation.subtitle = @"Located in San Jose, CA";
-    
-    [self.mapView addAnnotation:annotation];
-    
+//    CLLocationCoordinate2D sjsu_location;
+//    sjsu_location.latitude = SJSULat;
+//    sjsu_location.longitude = SJSULon;
+//    
+//    ModifiedAnnotation * annotation = [[ModifiedAnnotation alloc] init];
+//    annotation.coordinate = sjsu_location;
+//    annotation.title = @"San Jose State University";
+//    annotation.subtitle = @"Located in San Jose, CA";
+//    
+//    [self.mapView addAnnotation:annotation];
+//    
 }
 
 #pragma mark - MKMapViewDelegate Methods
 - (void) mapView:(MKMapView *) mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
     [self.mapView setRegion:MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.1f, 0.1f)) animated:YES];
+}
+
+- (MKAnnotationView *) mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    return NULL;
+}
+
+- (void)mapView:(MKMapView*) mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    
 }
 
 @end

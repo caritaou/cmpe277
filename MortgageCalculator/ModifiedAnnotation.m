@@ -13,7 +13,9 @@
 
 - (void) updateDetails: (NSString *) location item:(MKMapItem *)item addr: (NSString*)addrName
 {
-    
+    coordinate = item.placemark.coordinate;
+    title = location;
+    subtitle = addrName;
 }
 
 @end
