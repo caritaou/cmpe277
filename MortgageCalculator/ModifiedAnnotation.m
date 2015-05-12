@@ -18,4 +18,17 @@
     subtitle = addrName;
 }
 
++ (MKAnnotationView *) createCustomizedAnnotation:(MKMapView *)mapView withAnnotation:(id<MKAnnotation>)annotation
+{
+    MKAnnotationView * _ret_annotation = [mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([ModifiedAnnotation class])];
+    
+    if (_ret_annotation == nil)
+    {
+        _ret_annotation = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+        ((MKAnnotationView *)_ret_annotation).canShowCallout=YES;
+    }
+    
+    return _ret_annotation;
+}
+
 @end

@@ -26,7 +26,7 @@
     
     self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
     [self loadData];
-    [self viewDidLoad];
+    [self listCalculatedMortage];
 }
 
 - (void)viewDidLoad {
@@ -223,7 +223,6 @@
                 [self defaultLocation];
             }
         }];
-        
     }
     
 //    CLLocationCoordinate2D sjsu_location;
@@ -245,14 +244,53 @@
     [self.mapView setRegion:MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.1f, 0.1f)) animated:YES];
 }
 
-- (MKAnnotationView *) mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+- (void) mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    return NULL;
+    id <MKAnnotation> annotation = [view annotation];
+    if ([annotation isKindOfClass:[ModifiedAnnotation class]])
+    {
+        NSLog(@"Clicked Annotation");
+    }
 }
 
-- (void)mapView:(MKMapView*) mapView viewForAnnotation:(id<MKAnnotation>)annotation
+
+- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    MKAnnotationView * returnedView = nil;
+    
+    if ([annotation isKindOfClass:[ModifiedAnnotation class]])
+    {
+        returnedView = [ModifiedAnnotation createCustomizedAnnotation:self.mapView withAnnotation:annotation];
+        
+        UIButton * btn_streetView = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [btn_streetView setTitle:@"Street\nView" forState:UIControlStateNormal];
+        [btn_streetView addTarget:self action:@selector(openStreetView) forControlEvents:UIControlEventTouchUpInside];
+        btn_streetView.frame = CGRectMake(0, 0, 60.0, 60.0);
+//        ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = btn_streetView;
+        
+        UIButton * btn_edit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [btn_edit setTitle:@"Edit" forState:UIControlStateNormal];
+        [btn_edit addTarget:self action:@selector(editPin) forControlEvents:UIControlEventTouchUpInside];
+        btn_edit.frame = CGRectMake(0, 0, 60.0, 60.0);
+//        ((MKAnnotationView *)returnedView).leftCalloutAccessoryView = btn_edit;
+        
+        UIView * controlView = [[UIView alloc] init];
+        [controlView addSubview:btn_edit];
+        [controlView addSubview:btn_streetView];
+        ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = controlView;
+        
+    }
+    
+    return returnedView;
+}
+
+- (void) openStreetView
 {
     
 }
 
+- (void) editPin
+{
+    
+}
 @end

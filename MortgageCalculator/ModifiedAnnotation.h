@@ -16,5 +16,6 @@
 @property (nonatomic, copy) NSString *subtitle;
 
 - (void) updateDetails: (NSString *) location item:(MKMapItem *)item addr: (NSString*)addrName;
++ (MKAnnotationView *) createCustomizedAnnotation: (MKMapView *)mapView withAnnotation: (id <MKAnnotation>) annotation;
 
 @end
