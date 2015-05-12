@@ -11,7 +11,7 @@
 #import <MapKit/MapKit.h>
 #import "DBManager.h"
 
-@interface SecondViewController : UIViewController <MKMapViewDelegate, UIPopoverControllerDelegate>
+@interface SecondViewController : UIViewController <MKMapViewDelegate, UIPopoverControllerDelegate, GMSPanoramaViewDelegate, CLLocationManagerDelegate>
 
 @property (nonatomic, strong) DBManager *dbManager;
 @property (nonatomic, strong) NSArray *arrPropertyInfo;

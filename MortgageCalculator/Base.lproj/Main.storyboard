@@ -191,7 +191,24 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="582" y="-580"/>
+            <point key="canvasLocation" x="536" y="-578"/>
+        </scene>
+        <!--Enable Nav Bar-->
+        <scene sceneID="1RJ-uU-ekd">
+            <objects>
+                <navigationController title="Enable Nav Bar" id="dF9-tb-4wj" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="9hB-AI-d8X"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="x0j-ZT-P1p">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="RLs-uk-i70"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PYN-Ky-gXZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="680" y="287"/>
         </scene>
         <!--Second-->
         <scene sceneID="wg7-f3-ORb">
@@ -212,6 +229,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <navigationItem key="navigationItem" id="2iJ-i4-HtZ"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="mapView" destination="yOh-lF-YSs" id="FnE-qf-hpI"/>
@@ -219,25 +237,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="582" y="217"/>
+            <point key="canvasLocation" x="1382" y="360"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="ZbO-6g-iXq">
+        <!--Street View Controller-->
+        <scene sceneID="Nbv-hL-coH">
             <objects>
-                <viewController id="dTW-fP-iFV" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StreetViewController" title="Street View Controller" id="dUf-l4-ocQ" customClass="StreetViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="KOA-L2-zfT"/>
-                        <viewControllerLayoutGuide type="bottom" id="Frs-pF-wei"/>
+                        <viewControllerLayoutGuide type="top" id="1GU-db-Yzu"/>
+                        <viewControllerLayoutGuide type="bottom" id="Yte-oE-9PI"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="YMU-dv-67m" customClass="MapViewController">
+                    <view key="view" contentMode="scaleToFill" id="Oul-te-tK8">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7x2-Uh-TiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gK2-Zf-dsF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1239" y="149"/>
+            <point key="canvasLocation" x="1972" y="287"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -251,7 +269,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="dF9-tb-4wj" kind="relationship" relationship="viewControllers" id="qO3-Dh-gwG"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>

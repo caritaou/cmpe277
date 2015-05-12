@@ -12,6 +12,7 @@
 #import "DBManager.h"
 #import "PopoverViewController.h"
 #import "ModifiedAnnotation.h"
+#import "StreetViewController.h"
 
 @implementation SecondViewController
 {
@@ -157,14 +158,14 @@ ModifiedAnnotation *marker;
     [super viewDidLoad];
 }
 
-- (IBAction)displayPopover:(UIButton *)sender
-{
-    PopoverViewController * newView = [[PopoverViewController alloc] initWithNibName:@"PopoverViewController" bundle:nil];
-    self.mortagePicker_popover = [[UIPopoverController alloc] initWithContentViewController:newView];
-    
-    [self.mortagePicker_popover setPopoverContentSize:CGSizeMake(200, 200)];
-    [self.mortagePicker_popover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-}
+//- (IBAction)displayPopover:(UIButton *)sender
+//{
+//    PopoverViewController * newView = [[PopoverViewController alloc] initWithNibName:@"PopoverViewController" bundle:nil];
+//    self.mortagePicker_popover = [[UIPopoverController alloc] initWithContentViewController:newView];
+//    
+//    [self.mortagePicker_popover setPopoverContentSize:CGSizeMake(200, 200)];
+//    [self.mortagePicker_popover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+//}
 
 - (void)defaultLocation
 {
@@ -278,8 +279,8 @@ ModifiedAnnotation *marker;
         ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = btn_streetView;
         
         UIButton * btn_edit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [btn_edit setTitle:@"Edit" forState:UIControlStateNormal];
-        [btn_edit addTarget:self action:@selector(editPin) forControlEvents:UIControlEventTouchUpInside];
+        [btn_edit setTitle:@"Delete" forState:UIControlStateNormal];
+        [btn_edit addTarget:self action:@selector(deletePin) forControlEvents:UIControlEventTouchUpInside];
         btn_edit.frame = CGRectMake(0, 0, 60.0, 60.0);
         ((MKAnnotationView *)returnedView).leftCalloutAccessoryView = btn_edit;
         
@@ -307,10 +308,21 @@ ModifiedAnnotation *marker;
 - (void) openStreetView
 {
     // TODO: initialize streetview
+//    NSLog(@"%@ address was clicked", _click_addr);
+//    NSLog(@"latitude: %f", _clicked_latitude);
+//    NSLog(@"longtitude: %f", _clicked_longtitude);
+//    panoView_ = [[GMSPanoramaView alloc] initWithFrame:CGRectZero];
+//    self.view = panoView_;
+//    [panoView_ moveNearCoordinate:CLLocationCoordinate2DMake(_clicked_latitude, _clicked_longtitude)];
+    StreetViewController * streetView = [[self storyboard] instantiateViewControllerWithIdentifier:@"StreetViewController"];
+    streetView.latitude = _clicked_latitude;
+    streetView.longtitude = _clicked_longtitude;
+    [self.navigationController pushViewController:streetView animated:NO];
 }
 
-- (void) editPin
+- (void) deletePin
 {
     // TODO: initialize EditView
+    
 }
 @end
