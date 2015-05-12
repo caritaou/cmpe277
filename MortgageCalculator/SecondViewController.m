@@ -113,9 +113,6 @@
             }
         }];
     }
-    
-    
-    
     [super viewDidLoad];
     
 }
@@ -266,18 +263,18 @@
         [btn_streetView setTitle:@"Street\nView" forState:UIControlStateNormal];
         [btn_streetView addTarget:self action:@selector(openStreetView) forControlEvents:UIControlEventTouchUpInside];
         btn_streetView.frame = CGRectMake(0, 0, 60.0, 60.0);
-//        ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = btn_streetView;
+        ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = btn_streetView;
         
         UIButton * btn_edit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [btn_edit setTitle:@"Edit" forState:UIControlStateNormal];
         [btn_edit addTarget:self action:@selector(editPin) forControlEvents:UIControlEventTouchUpInside];
         btn_edit.frame = CGRectMake(0, 0, 60.0, 60.0);
-//        ((MKAnnotationView *)returnedView).leftCalloutAccessoryView = btn_edit;
+        ((MKAnnotationView *)returnedView).leftCalloutAccessoryView = btn_edit;
         
-        UIView * controlView = [[UIView alloc] init];
-        [controlView addSubview:btn_edit];
-        [controlView addSubview:btn_streetView];
-        ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = controlView;
+//        UIView * controlView = [[UIView alloc] init];
+//        [controlView addSubview:btn_edit];
+//        [controlView addSubview:btn_streetView];
+//        ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = controlView;
         
     }
     
@@ -286,11 +283,11 @@
 
 - (void) openStreetView
 {
-    
+    // TODO: initialize streetview
 }
 
 - (void) editPin
 {
-    
+    // TODO: initialize EditView
 }
 @end

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MortgageCalculator/SecondViewController.m"
-            timestampString = "453085289.440254"
+            timestampString = "453092342.270342"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "-loadData"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MortgageCalculator/SecondViewController.m"
-            timestampString = "453085289.440254"
+            timestampString = "453092342.270342"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "-listCalculatedMortage"
             landmarkType = "5">
          </BreakpointContent>
