@@ -183,7 +183,7 @@ ModifiedAnnotation *marker;
         
         
         NSString * propertyTitle = property;
-        propertyTitle = [propertyTitle stringByAppendingString: [NSString stringWithFormat:@"$%0.2f", payment]];
+        propertyTitle = [propertyTitle stringByAppendingString: [NSString stringWithFormat:@" $%0.2f", payment]];
         
         
         NSString * _fulladdr = address;
@@ -191,13 +191,6 @@ ModifiedAnnotation *marker;
         _fulladdr = [_fulladdr stringByAppendingString:city];
         _fulladdr = [_fulladdr stringByAppendingString:@" "];
         _fulladdr = [_fulladdr stringByAppendingString:state];
-
-        
-        NSString * info_detail = address;
-        info_detail = [_fulladdr stringByAppendingString:@"\r\n"];
-        info_detail = [_fulladdr stringByAppendingString:city];
-        info_detail = [_fulladdr stringByAppendingString:@"\r\n"];
-        info_detail = [_fulladdr stringByAppendingString:state];
         
         MKLocalSearchRequest * request = [[MKLocalSearchRequest alloc] init];
         request.naturalLanguageQuery = _fulladdr;
@@ -214,7 +207,7 @@ ModifiedAnnotation *marker;
             for (MKMapItem * item in response.mapItems)
             {
                 ModifiedAnnotation * annotation = [[ModifiedAnnotation alloc] init];
-                [annotation updateDetails:propertyTitle item:item addr:info_detail arr:object];
+                [annotation updateDetails:propertyTitle item:item addr:_fulladdr arr:object];
                 [mapView addAnnotation:annotation];
                 [self defaultLocation];
             }
