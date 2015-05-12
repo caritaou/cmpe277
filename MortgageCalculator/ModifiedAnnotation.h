@@ -14,6 +14,8 @@
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, copy) NSString *subtitle;
+@property (nonatomic) double lattitude;
+@property (nonatomic) double longtitude;
 
 - (void) updateDetails: (NSString *) location item:(MKMapItem *)item addr: (NSString*)addrName;
 + (MKAnnotationView *) createCustomizedAnnotation: (MKMapView *)mapView withAnnotation: (id <MKAnnotation>) annotation;

@@ -18,6 +18,9 @@
 @property (strong, nonatomic) UIPopoverController * mortagePicker_popover;
 @property (nonatomic, retain) CLLocationManager * _locationManager;
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic) NSString * click_addr;
+@property (nonatomic) double clicked_latitude;
+@property (nonatomic) double clicked_longtitude;
 
 @end
 

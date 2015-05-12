@@ -18,6 +18,9 @@
     GMSMapView *mapView_;
     GMSPanoramaView *panoView_;
 }
+
+ModifiedAnnotation *marker;
+
 @synthesize mapView;
 #define SJSULat 37.3349732
 #define SJSULon -121.880756
@@ -194,11 +197,19 @@
         double longitude = [object[11] doubleValue];
         
         
+        
         NSString * _fulladdr = address;
         _fulladdr = [_fulladdr stringByAppendingString:@", "];
         _fulladdr = [_fulladdr stringByAppendingString:city];
         _fulladdr = [_fulladdr stringByAppendingString:@" "];
         _fulladdr = [_fulladdr stringByAppendingString:state];
+
+        
+        NSString * info_detail = address;
+        info_detail = [_fulladdr stringByAppendingString:@"\r\n"];
+        info_detail = [_fulladdr stringByAppendingString:city];
+        info_detail = [_fulladdr stringByAppendingString:@"\r\n"];
+        info_detail = [_fulladdr stringByAppendingString:state];
         
         MKLocalSearchRequest * request = [[MKLocalSearchRequest alloc] init];
         request.naturalLanguageQuery = _fulladdr;
@@ -215,7 +226,7 @@
             for (MKMapItem * item in response.mapItems)
             {
                 ModifiedAnnotation * annotation = [[ModifiedAnnotation alloc] init];
-                [annotation updateDetails:property item:item addr:address];
+                [annotation updateDetails:property item:item addr:info_detail];
                 [mapView addAnnotation:annotation];
                 [self defaultLocation];
             }
@@ -246,7 +257,8 @@
     id <MKAnnotation> annotation = [view annotation];
     if ([annotation isKindOfClass:[ModifiedAnnotation class]])
     {
-        NSLog(@"Clicked Annotation");
+        UIButton * btn_clicked = (UIButton *) control;
+        NSLog(@"Clicked %@ Annotation", btn_clicked.currentTitle);
     }
 }
 
@@ -279,6 +291,17 @@
     }
     
     return returnedView;
+}
+
+- (void) mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    if ([view.annotation isKindOfClass:[ModifiedAnnotation class]]) {
+        marker = view.annotation;
+        _click_addr = marker.subtitle;
+        _clicked_latitude = marker.coordinate.latitude;
+        _clicked_longtitude = marker.coordinate.longitude;
+        NSLog(@"%@ was clicked", _click_addr);
+    }
 }
 
 - (void) openStreetView
