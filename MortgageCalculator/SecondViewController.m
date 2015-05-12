@@ -138,34 +138,14 @@ ModifiedAnnotation *marker;
     NSLog(@"DEBUG: select from propertyInfo is %@", self.arrPropertyInfo);
 }
 
--(void)deleteProperty:(NSArray*) info {
-    NSString *property = info[0];
-    NSString *address = info[1];
-    NSString *city = info[2];
-    NSString *state = info[3];
-    NSString *zip = info[4];
+- (IBAction)displayPopover:(UIButton *)sender
+{
+    PopoverViewController * newView = [[PopoverViewController alloc] initWithNibName:@"PopoverViewController" bundle:nil];
+    self.mortagePicker_popover = [[UIPopoverController alloc] initWithContentViewController:newView];
     
-    // Prepare the query.
-    NSString *query = [NSString stringWithFormat:@"delete from propertyInfo where property=%@ and address=%@ and city=%@ and state=%@ and zip=%@", property, address, city, state, zip];
-    
-    // Execute the query.
-    [self.dbManager executeQuery:query];
-    
-    // Reload the table view.
-    [self loadData];
-    
-    //refresh map
-    [super viewDidLoad];
+    [self.mortagePicker_popover setPopoverContentSize:CGSizeMake(200, 200)];
+    [self.mortagePicker_popover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
-
-//- (IBAction)displayPopover:(UIButton *)sender
-//{
-//    PopoverViewController * newView = [[PopoverViewController alloc] initWithNibName:@"PopoverViewController" bundle:nil];
-//    self.mortagePicker_popover = [[UIPopoverController alloc] initWithContentViewController:newView];
-//    
-//    [self.mortagePicker_popover setPopoverContentSize:CGSizeMake(200, 200)];
-//    [self.mortagePicker_popover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-//}
 
 - (void)defaultLocation
 {
@@ -227,7 +207,7 @@ ModifiedAnnotation *marker;
             for (MKMapItem * item in response.mapItems)
             {
                 ModifiedAnnotation * annotation = [[ModifiedAnnotation alloc] init];
-                [annotation updateDetails:property item:item addr:info_detail];
+                [annotation updateDetails:property item:item addr:info_detail arr:object];
                 [mapView addAnnotation:annotation];
                 [self defaultLocation];
             }
@@ -278,11 +258,11 @@ ModifiedAnnotation *marker;
         btn_streetView.frame = CGRectMake(0, 0, 60.0, 60.0);
         ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = btn_streetView;
         
-        UIButton * btn_edit = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [btn_edit setTitle:@"Delete" forState:UIControlStateNormal];
-        [btn_edit addTarget:self action:@selector(deletePin) forControlEvents:UIControlEventTouchUpInside];
-        btn_edit.frame = CGRectMake(0, 0, 60.0, 60.0);
-        ((MKAnnotationView *)returnedView).leftCalloutAccessoryView = btn_edit;
+        UIButton * btn_delete = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [btn_delete setTitle:@"Delete" forState:UIControlStateNormal];
+        [btn_delete addTarget:self action:@selector(deleteProperty) forControlEvents:UIControlEventTouchUpInside];
+        btn_delete.frame = CGRectMake(0, 0, 60.0, 60.0);
+        ((MKAnnotationView *)returnedView).leftCalloutAccessoryView = btn_delete;
         
 //        UIView * controlView = [[UIView alloc] init];
 //        [controlView addSubview:btn_edit];
@@ -301,8 +281,45 @@ ModifiedAnnotation *marker;
         _click_addr = marker.subtitle;
         _clicked_latitude = marker.coordinate.latitude;
         _clicked_longtitude = marker.coordinate.longitude;
+        
+        _cproperty = marker.property;
+        _caddress = marker.address;
+        _ccity = marker.city;
+        _cstate = marker. state;
+        _czip = marker.zip;
+        _cloan = marker.loan;
+        _cdown = marker.down;
+        _capr = marker.apr;
+        _cterms = marker.terms;
+        _cpayment = marker.payment;
+        _clatitude = marker.latitude;
+        _clongitude = marker.longitude;
+        
         NSLog(@"%@ was clicked", _click_addr);
     }
+}
+
+-(void)deleteProperty {
+    // Prepare the query.
+    NSString *query = [NSString stringWithFormat:@"delete from propertyInfo where property_type='%@' and address='%@' and city='%@' and state='%@' and zip=%@ and loan_amount=%@ and down_payment=%@ and apr=%@ and terms=%@ and mortgage_rate=%@ and latitude=%@ and longitude=%@" , _cproperty, _caddress, _ccity, _cstate, _czip, _cloan, _cdown, _capr, _cterms, _cpayment, _clatitude, _clongitude];
+    
+    // Execute the query.
+    [self.dbManager executeQuery:query];
+    
+    // Reload the table view.
+    [self loadData];
+    
+    //refresh map
+    [super viewWillAppear:true];
+    [super viewDidLoad];
+    
+    //test select to verify data inserted into table
+//        NSString *select = @"select * from propertyInfo";
+//    
+//        NSArray *results = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:select]];
+//    NSLog(@"DEBUG: selectinggggg from propertyInfo is %@", results);
+//    NSLog(@"DEBUG: delete query is %@", query);
+
 }
 
 - (void) openStreetView
