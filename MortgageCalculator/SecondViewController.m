@@ -16,17 +16,21 @@
 @implementation SecondViewController
 {
     GMSMapView *mapView_;
+    GMSPanoramaView *panoView_;
 }
 @synthesize mapView;
 
-#define SJSULat 37.3349732
-#define SJSULon -121.880756
+-(void) viewWillAppear:(BOOL)animated {
+    
+    self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
+    [self loadData];
+}
 
 - (void)viewDidLoad {
     // Do any additional setup after loading the view, typically from a nib.
     // Create a GMSCameraPosition that tells the map to display the coordinate xxx
     // at zoom level 6;
-    
+//    
     self.dbManager = [[DBManager alloc] initWithDatabaseFilename:@"propertydb.sql"];
     [self loadData];
     
@@ -107,7 +111,10 @@
         }];
     }
     
+    
+    
     [super viewDidLoad];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -142,6 +149,9 @@
     
     // Reload the table view.
     [self loadData];
+    
+    //refresh map
+    [super viewDidLoad];
 }
 
 - (IBAction)displayPopover:(UIButton *)sender
