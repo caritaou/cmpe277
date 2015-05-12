@@ -68,7 +68,7 @@ NSString *apt = @"Apartment";
     _downPayment.delegate = self;
     _apr.delegate = self;
     _terms.delegate = self;
-    _statePickerData = @[ @"Alabama", @"Alaska", @"Arizona", @"Arkansas", @"California", @"Colorado", @"Connecticut", @"Delaware", @"Florida", @"Georgia", @"Hawaii", @"Idaho", @"Illinois", @"Indiana", @"Iowa", @"Kansas", @"Kentucky", @"Louisiana", @"Maine", @"Maryland", @"Massachusetts", @"Michigan", @"Minnesota", @"Mississippi", @"Missouri", @"Montana", @"Nebraska", @"Nevada", @"New Hampshire", @"New Jersey", @"New Mexico", @"New York", @"North Carolina", @"North Dakota", @"Ohio", @"Oklahoma", @"Oregon", @"Pennsylvania", @"Rhode Island", @"South Carolina", @"South Dakota", @"Tennessee", @"Texas", @"Utah", @"Vermont", @"Virginia", @"Washington", @"West Virginia", @"Wisconsin", @"Wyoming"];
+    _statePickerData = @[ @"AL", @"AK", @"AZ", @"AR", @"CA", @"CO", @"CT", @"DE", @"FL", @"GA", @"HI", @"ID", @"IL", @"IN", @"IA", @"KS", @"KY", @"LA", @"ME", @"MD", @"MA", @"MI", @"MN", @"MS", @"MO", @"MT", @"NE", @"NV", @"NH", @"NJ", @"NM", @"NY", @"NC", @"ND", @"OH", @"OK", @"OR", @"PA", @"RI", @"SC", @"SD", @"TN", @"TX", @"UT", @"VT", @"VA", @"WA", @"WV", @"WI", @"WY"];
     
     statePicker = [[UIPickerView alloc] init];
     statePicker.delegate = self;
@@ -234,22 +234,6 @@ NSString *apt = @"Apartment";
     else if(CLLocationCoordinate2DIsValid(myCoordinate)) {
         latitude = myCoordinate.latitude;
         longitude = myCoordinate.longitude;
-        
-        NSLog(@"DEBUG: latitude is %f", myCoordinate.latitude);
-        NSLog(@"DEBUG: longitude is %f", myCoordinate.longitude);
-        
-        NSLog(@"DEBUG: property is %@", property);
-        NSLog(@"DEBUG: address is %@", address);
-        NSLog(@"DEBUG: city is %@", city);
-        NSLog(@"DEBUG: state is %@", state);
-        NSLog(@"DEBUG: zip is %d", zip);
-        NSLog(@"DEBUG: loan amount is %f", loan);
-        NSLog(@"DEBUG: down payment is %f", down);
-        NSLog(@"DEBUG: apr is %f", apr);
-        NSLog(@"DEBUG: terms in years is %d", terms);
-        NSLog(@"DEBUG: rate is %f", rate);
-        NSLog(@"DEBUG: latitude is %f", latitude);
-        NSLog(@"DEBUG: longitude is %f", longitude);
         
         NSString *query = [NSString stringWithFormat:@"insert into propertyInfo values('%@', '%@', '%@', '%@', %d, %f, %f, %f, %d, %f, %f, %f)", property, address, city, state, zip, loan, down, apr, terms, rate, latitude, longitude];
         
