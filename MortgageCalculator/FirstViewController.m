@@ -235,22 +235,6 @@ NSString *apt = @"Apartment";
         latitude = myCoordinate.latitude;
         longitude = myCoordinate.longitude;
         
-        NSLog(@"DEBUG: latitude is %f", myCoordinate.latitude);
-        NSLog(@"DEBUG: longitude is %f", myCoordinate.longitude);
-        
-        NSLog(@"DEBUG: property is %@", property);
-        NSLog(@"DEBUG: address is %@", address);
-        NSLog(@"DEBUG: city is %@", city);
-        NSLog(@"DEBUG: state is %@", state);
-        NSLog(@"DEBUG: zip is %d", zip);
-        NSLog(@"DEBUG: loan amount is %f", loan);
-        NSLog(@"DEBUG: down payment is %f", down);
-        NSLog(@"DEBUG: apr is %f", apr);
-        NSLog(@"DEBUG: terms in years is %d", terms);
-        NSLog(@"DEBUG: rate is %f", rate);
-        NSLog(@"DEBUG: latitude is %f", latitude);
-        NSLog(@"DEBUG: longitude is %f", longitude);
-        
         NSString *query = [NSString stringWithFormat:@"insert into propertyInfo values('%@', '%@', '%@', '%@', %d, %f, %f, %f, %d, %f, %f, %f)", property, address, city, state, zip, loan, down, apr, terms, rate, latitude, longitude];
         
         NSLog(@"DEBUG: query is %@", query);

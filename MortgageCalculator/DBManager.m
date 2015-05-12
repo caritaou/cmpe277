@@ -2,8 +2,7 @@
 //  DBManager.m
 //  MortgageCalculator
 //
-//  Created by mac on 5/9/15.
-//  Copyright (c) 2015 edu.sjsu.cmpe277. All rights reserved.
+//  http://www.appcoda.com/sqlite-database-ios-app-tutorial/
 //
 
 #import "DBManager.h"
