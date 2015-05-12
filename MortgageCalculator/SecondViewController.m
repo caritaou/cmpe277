@@ -19,6 +19,8 @@
     GMSPanoramaView *panoView_;
 }
 @synthesize mapView;
+#define SJSULat 37.3349732
+#define SJSULon -121.880756
 
 -(void) viewWillAppear:(BOOL)animated {
     
