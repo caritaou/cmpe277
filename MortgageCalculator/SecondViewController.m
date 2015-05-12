@@ -126,6 +126,7 @@ ModifiedAnnotation *marker;
     // Dispose of any resources that can be recreated.
 }
 
+// Load data from database and store in memory
 -(void)loadData{
     // Form the query.
     NSString *query = @"select * from propertyInfo";
@@ -147,6 +148,8 @@ ModifiedAnnotation *marker;
     [self.mortagePicker_popover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
+
+// Use SJSU at default location
 - (void)defaultLocation
 {
     MKCoordinateRegion defaultRegion;
@@ -158,6 +161,7 @@ ModifiedAnnotation *marker;
     [self.mapView setRegion:defaultRegion animated:YES];
 }
 
+// load data from db and display on map
 - (void)listCalculatedMortage
 {
     // List existed data
@@ -177,6 +181,12 @@ ModifiedAnnotation *marker;
         double latitude = [object[10] doubleValue];
         double longitude = [object[11] doubleValue];
         
+        
+        NSString * propertyTitle = @"";
+        propertyTitle = [propertyTitle stringByAppendingString:@"  $"];
+        propertyTitle = [propertyTitle stringByAppendingString:[NSString stringWithFormat:@"%0.2f ", loan]];
+        propertyTitle = [propertyTitle stringByAppendingString: [NSString stringWithFormat:@"%0.2f ", apr ]];
+        propertyTitle = [propertyTitle stringByAppendingString: [NSString stringWithFormat:@"%0.2f", payment]];
         
         
         NSString * _fulladdr = address;
@@ -207,7 +217,7 @@ ModifiedAnnotation *marker;
             for (MKMapItem * item in response.mapItems)
             {
                 ModifiedAnnotation * annotation = [[ModifiedAnnotation alloc] init];
-                [annotation updateDetails:property item:item addr:info_detail arr:object];
+                [annotation updateDetails:propertyTitle item:item addr:info_detail arr:object];
                 [mapView addAnnotation:annotation];
                 [self defaultLocation];
             }
@@ -243,7 +253,8 @@ ModifiedAnnotation *marker;
     }
 }
 
-
+// Override method from MapViewDelegate
+// Modify annotation
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
     MKAnnotationView * returnedView = nil;
@@ -264,16 +275,12 @@ ModifiedAnnotation *marker;
         btn_delete.frame = CGRectMake(0, 0, 60.0, 60.0);
         ((MKAnnotationView *)returnedView).leftCalloutAccessoryView = btn_delete;
         
-//        UIView * controlView = [[UIView alloc] init];
-//        [controlView addSubview:btn_edit];
-//        [controlView addSubview:btn_streetView];
-//        ((MKAnnotationView *) returnedView).rightCalloutAccessoryView = controlView;
-        
     }
     
     return returnedView;
 }
 
+// event listener: catch annotation select event
 - (void) mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     if ([view.annotation isKindOfClass:[ModifiedAnnotation class]]) {
@@ -299,47 +306,35 @@ ModifiedAnnotation *marker;
     }
 }
 
+// delete an entry from database
 -(void)deleteProperty {
     // Prepare the query.
     NSString *query = [NSString stringWithFormat:@"delete from propertyInfo where property_type='%@' and address='%@' and city='%@' and state='%@' and zip=%@ and loan_amount=%@ and down_payment=%@ and apr=%@ and terms=%@ and mortgage_rate=%@ and latitude=%@ and longitude=%@" , _cproperty, _caddress, _ccity, _cstate, _czip, _cloan, _cdown, _capr, _cterms, _cpayment, _clatitude, _clongitude];
     
     // Execute the query.
     [self.dbManager executeQuery:query];
-    
-    // Reload the table view.
-    [self loadData];
-    
-    //refresh map
-    [super viewWillAppear:true];
-    [super viewDidLoad];
-    
-    //test select to verify data inserted into table
-//        NSString *select = @"select * from propertyInfo";
-//    
-//        NSArray *results = [[NSArray alloc] initWithArray:[self.dbManager loadDataFromDB:select]];
-//    NSLog(@"DEBUG: selectinggggg from propertyInfo is %@", results);
-//    NSLog(@"DEBUG: delete query is %@", query);
 
+    // Remove all current annotation
+    NSMutableArray * annotations = [[NSMutableArray alloc] init];
+    for (id annotation in [mapView annotations])
+    {
+        [annotations addObject:annotation];
+    }
+    [mapView removeAnnotations:annotations];
+    // Reload a new list of annotation
+    [self loadData];
+    [self listCalculatedMortage];
 }
 
+
+// Launch street view
 - (void) openStreetView
 {
     // TODO: initialize streetview
-//    NSLog(@"%@ address was clicked", _click_addr);
-//    NSLog(@"latitude: %f", _clicked_latitude);
-//    NSLog(@"longtitude: %f", _clicked_longtitude);
-//    panoView_ = [[GMSPanoramaView alloc] initWithFrame:CGRectZero];
-//    self.view = panoView_;
-//    [panoView_ moveNearCoordinate:CLLocationCoordinate2DMake(_clicked_latitude, _clicked_longtitude)];
     StreetViewController * streetView = [[self storyboard] instantiateViewControllerWithIdentifier:@"StreetViewController"];
     streetView.latitude = _clicked_latitude;
     streetView.longtitude = _clicked_longtitude;
     [self.navigationController pushViewController:streetView animated:NO];
 }
 
-- (void) deletePin
-{
-    // TODO: initialize EditView
-    
-}
 @end

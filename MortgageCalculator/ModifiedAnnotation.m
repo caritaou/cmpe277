@@ -31,6 +31,7 @@
     latitude = prop[10];
     longitude = prop[11];
     
+    
 //    loan = [prop[5] doubleValue];
 //    down = [prop[6] doubleValue];
 //    apr = [prop[7] doubleValue];
@@ -41,6 +42,7 @@
 
 }
 
+// create a customize annotation
 + (MKAnnotationView *) createCustomizedAnnotation:(MKMapView *)mapView withAnnotation:(id<MKAnnotation>)annotation
 {
     MKAnnotationView * _ret_annotation = [mapView dequeueReusableAnnotationViewWithIdentifier:NSStringFromClass([ModifiedAnnotation class])];

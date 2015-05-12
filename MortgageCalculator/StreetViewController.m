@@ -21,6 +21,7 @@
 
 - (void)viewDidLoad {
     // Do any additional setup after loading the view from its nib.
+    // generate street view.
     view_ = [GMSPanoramaView panoramaWithFrame:CGRectZero nearCoordinate:CLLocationCoordinate2DMake(self.latitude, self.longtitude)];
     view_.delegate = self;
     self.view = view_;
