@@ -182,11 +182,8 @@ ModifiedAnnotation *marker;
         double longitude = [object[11] doubleValue];
         
         
-        NSString * propertyTitle = @"";
-        propertyTitle = [propertyTitle stringByAppendingString:@"  $"];
-        propertyTitle = [propertyTitle stringByAppendingString:[NSString stringWithFormat:@"%0.2f ", loan]];
-        propertyTitle = [propertyTitle stringByAppendingString: [NSString stringWithFormat:@"%0.2f ", apr ]];
-        propertyTitle = [propertyTitle stringByAppendingString: [NSString stringWithFormat:@"%0.2f", payment]];
+        NSString * propertyTitle = property;
+        propertyTitle = [propertyTitle stringByAppendingString: [NSString stringWithFormat:@"$%0.2f", payment]];
         
         
         NSString * _fulladdr = address;
